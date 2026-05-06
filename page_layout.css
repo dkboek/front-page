@@ -1,0 +1,105 @@
+body {
+background-color: hsl(164,89%,86%);
+}
+
+/* Basic variable definitions */
+:root {
+    --sidebar-width: 25%;
+    --nav-height: 5em;
+    --navbar-color: hsl(143,55%,71%);
+    --sidebar-color: hsl(143,55%,78%);
+
+    --nav-border-color: darkslateblue;
+    --nav-background-color: hsl(219, 79%, 76%);
+    --nav-visited-color: darkslateblue;
+    --nav-hover-color: pink;
+    --nav-active-color: hsl(0,74%,85%);
+    --nav-color: cornflowerblue;
+}
+
+/* Primary block layout */
+body {
+    margin: 0;
+}
+#layout {
+    display: grid;
+    grid-template-rows: var(--nav-height) [main-start] minmax(50em,1fr) [main-end];
+    grid-template-columns: [main-start] 1fr [main-end] var(--sidebar-width);
+}
+nav {
+    position: fixed;
+    grid-row: 1 / 2;
+    grid-column: 1 / 2; 
+    width: calc(100% - var(--sidebar-width));
+    height: var(--nav-height);
+    z-index: 10;
+    background-color: var(--navbar-color);
+}
+#mainbar {
+    grid-area: main;
+    z-index: 1;
+}
+#sidebar {
+    grid-row: 1 / 3;
+    grid-column: 2 / -1;
+    z-index: 20;
+    background-color: var(--sidebar-color);
+}
+
+/* Navbar layout */
+
+nav ul {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-variant: small-caps;
+    list-style-type: none;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    gap: 0.5em;
+}
+nav ul li a {
+    display: block;
+    padding: 1em;
+    border-radius: .5em;
+}
+
+
+/* Link effects (mostly) */
+nav ul li a:link {
+text-decoration: none;
+border: 1px solid var(--nav-border-color);
+background-color: var(--nav-background-color);
+}
+nav ul li a:visited {
+color: var(--nav-visited-color);
+}
+nav ul li a:hover {
+background-color: var(--nav-hover-color);
+padding: 1.1em;
+}
+nav ul li a:active {
+background-color: var(--nav-active-color);
+}
+
+
+/* Sidebar layout */
+#sidebar:first-child {
+margin-top: 10em;
+}
+#sidebar h2 {
+font-family: 'Trebuchet MS', 'Lucida Sans', Arial, sans-serif;
+font-variant: small-caps;
+font-size: 1.8em;
+text-align: center;
+margin: 2em;
+}
+#tagline {
+font-family: 'Lucida Sans', Arial, sans-serif;
+line-height: 1.75em;
+text-align: center;
+word-spacing: 0.3em;
+margin: 1em;
+}
+
+
+/* Mainbar formatting: handled individually */

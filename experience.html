@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Experience</title>
+  <!-- Link layout stylesheet --> 
+  <link rel="stylesheet" type="text/css" href="page_layout.css">
+
+  <style>
+  /* Define some variables */
+  :root {
+    --header-color: hsl(147,14%,20%);
+  }
+  body {
+    font-size: 16px;
+  }
+
+  /* Currently selected page - add bottom border (and adjust padding) */
+  a#experience:link {
+    padding-bottom: 0.6em;
+    border-bottom: 0.4em solid var(--nav-border-color);
+  }
+  a#experience:hover {
+    padding: 1.1em 1.1em 0.7em 1.1em;
+  }
+
+  /* Mainbar layout (page-specific content) */
+  #mainbar {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin: 2em;
+  }
+  #mainbar h1 {
+    color: var(--header-color);
+    font-size: 3em;
+    margin: .2em 0 .7em 0;
+  }
+  #mainbar h2 {
+    margin-left: 1em;
+    color: var(--header-color);
+  }
+  #mainbar h3 {
+    margin-left: 2em;
+    color: var(--header-color);
+  }
+
+  dl#professional {
+    margin: 2em;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+  }
+  dl#professional > dt {
+    font-size: large;
+    flex-basis: 20%;
+    margin: 1em;
+    text-align: right;
+  }
+  p.role {
+    font-size: larger;
+  }
+  p.role-dates {
+    color: gray;
+  }
+  dl#professional > dd {
+    flex-basis: 70%;
+    margin: 1em;
+  }
+  ul.employments {
+    list-style: none;
+  }
+  ul.employments dl {
+    padding: .5em;
+    background-color: rgba(0,0,0,0.05);
+    border-radius: .5em;
+  }
+  ul.employments dl dt {
+    font-variant: small-caps;
+    font-size: large;
+    margin-left: 15%;
+    margin-top: .5em;
+  }
+  ul.employments dl dd {
+    margin: 0;
+  }
+  span.workload {
+    padding: 0 .5em;
+    font-style: italic;
+  }
+  ul.role-description {
+    margin: 1em;
+    list-style: none;
+  }
+  ul.role-description li {
+    margin: 1em 0em 1em -1em;
+  }
+  </style>
+</head>
+
+<body>
+<div id="layout">
+
+<nav><ul>
+  <li><a href="./index.html" id="home">Home</a></li>
+  <li><a href="./education.html" id="education">Education</a></li>
+  <li><a href="./experience.html" id="experience">Experience</a></li>
+  <li>Technical</li>
+  <li>Other</li>
+</ul></nav>
+
+<div id="sidebar">
+  <h2>Welcome to Daniel's page</h2>
+  <p id="tagline">Recently graduated from a Master of Science, Astrophysics, with a strong foundation in applied mathematics, practical experience in software development, and highly developed problem-solving abilities.</p>
+</div>
+
+<div id="mainbar">
+  <h1>Professional Experience</h1>
+  <dl id="professional">
+    <dt><p class="role">University Tutor</p>
+      <p class="role-dates">March 2023 - Current</p>
+    </dt>
+    <dd> <ul class="employments"><dl>
+        <dt>The University of Melbourne <span class="workload">(Casual)</span></dt>
+        <dd><ul class="role-description">
+          <li>Teaching classes of 10 to 30 students in mathematics and physics</li>
+          <li>Calculus 1, Physics 1 (Standard and Advanced streams), From the Solar System to the Cosmos, Real Analysis (Standard and Advanced streams), and third-year Computational Physics classes</li>
+          <li>Researched and wrote a bank of new quiz questions for the second-year Real Analysis subject assessments</li>
+        </ul></dd>
+      </dl></ul>
+    </dd>
+
+    <dt><p class="role">Research Assistant</p>
+      <p class="role-dates">July 2022</p>
+    </dt>
+    <dd> <ul class="employments"><dl class="employment">
+        <dt>The University of Melbourne <span class="workload">(Full-time)</span></dt>
+        <dd><ul class="role-description">
+          <li>Completed a winter research project investigating properties of optical nanostructures, as part of the Laby Research Scholars Program</li>
+        </ul></dd>
+      </dl></ul>
+    </dd>
+
+    <dt><p class="role">Software Assistant</p>
+      <p class="role-dates">December 2016 - August 2021</p>
+    </dt>
+    <dd> <ul class="employments"><dl class="employment">
+        <dt>Metropolis Metering Services <span class="workload">(Casual)</span></dt>
+        <dd><ul class="role-description">
+          <li>Developed three software programs, largely using Python and Java (Apache Groovy), including a new user-friendly automated email system for customer billing procedures</li>
+          <li>Admin work (describe**)</li>
+        </ul></dd>
+      </dl></ul>
+    </dd>
+  </dl>
+
+  <h2>Publications</h2>
+  <dl class="publications">
+    <dt>2025</dt>
+    <dd>Does the crust-superfluid coupling time-scale change before, during, and after a radio pulsar glitch? <i>(Master's thesis - supervised by Prof. Andrew Melatos at the University of Melbourne)</i></dd>
+
+    <dt>2025</dt>
+    <dd>Measuring the crust-superfluid coupling time-scale for 105 UTMOST pulsars with a Kalman filter, <i>Montly Notices of the Royal Astronomical Society (co-author)</i></dd>
+  </dl>
+
+  <h3>In production</h3>
+  <dl class="publications">
+    <dt>2026*</dt>
+    <dd>Does the crust-superfluid coupling time-scale change before, during, and after a radio pulsar glitch?</dd>
+  </dl>
+</div>
+
+</div>
+
+</body>
+</html>

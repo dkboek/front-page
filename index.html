@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Daniel Klaas Boek</title>
+  <!-- Link layout stylesheet -->
+  <link rel="stylesheet" type="text/css" href="./page_layout.css">
+
+  <style>
+  
+  /* Primary block layout - defined in page_layout.css */
+
+  /* Currently selected page - add bottom border (and adjust padding) */
+  a#home:link {
+    padding-bottom: 0.6em;
+    border-bottom: 0.4em solid var(--nav-border-color);
+  }
+  a#home:hover {
+    padding: 1.1em 1.1em 0.7em 1.1em;
+  }
+
+
+  /* Mainbar layout (page-specific content) */
+
+  h1 {
+    text-align: center;
+    font-family: Georgia, serif;
+    color: darkblue;
+    font-size: 5em;
+    text-shadow: 5px 5px 10px hsla(0,0%,50%,30%);
+    margin: 1em;
+  }
+  #image-collection {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    border: 2px dotted darkcyan;
+    border-radius: 0.25em;
+    margin: 3em;
+  }
+  #image-collection legend {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-style: italic;
+    font-size: 1.5em;
+    font-variant: small-caps;
+  }
+  .showcase-img {
+    display: block;
+    margin: 5px;
+    height: 270px;
+    width: 270px;
+  }
+  .showcase-img:hover {
+    margin: -15px;
+    height: 310px;
+    width: 310px;
+    z-index: 10;
+  }
+  #img1 {
+    background-color: red;
+  }
+  #img2 {
+    background-color: blue;
+  }
+  #img3 {
+    background-color: yellow;
+  }
+  #img4 {
+    background-color: brown;
+  }
+  #img5 {
+    background-color: green;
+  }
+
+  </style>
+
+</head>
+
+<body>
+<div id="layout">
+
+<nav><ul>
+  <li><a href="./index.html" id="home">Home</a></li>
+  <li><a href="./education.html" id="education">Education</a></li>
+  <li><a href="./experience.html" id="experience">Experience</a></li>
+  <li>Technical</li>
+  <li>Other</li>
+</ul></nav>
+
+<div id="sidebar">
+  <h2>Welcome to Daniel's page</h2>
+  <p id="tagline">Recently graduated from a Master of Science, Astrophysics, with a strong foundation in applied mathematics, practical experience in software development, and highly developed problem-solving abilities.</p>
+  <p> ***INCLUDE LINKS TO GITHUB ETC </p>
+</div>
+
+<div id="mainbar">
+  <h1>Daniel Klaas Boek</h1>
+  <fieldset id="image-collection">
+    <legend>Image showcase</legend>
+    <div class="showcase-img" id="img1">1</div>
+    <div class="showcase-img" id="img2">2</div>
+    <div class="showcase-img" id="img3">3</div>
+    <div class="showcase-img" id="img4">4</div>
+    <div class="showcase-img" id="img5">5</div>
+  </fieldset>
+</div>
+
+</div>
+</body>
+</html>
