@@ -117,6 +117,14 @@ text-align: center;
 word-spacing: 0.3em;
 margin: 1em;
 }
+#tagline2 {
+font-family: 'Lucida Sans', Arial, sans-serif;
+line-height: 1.75em;
+text-align: center;
+word-spacing: 0.3em;
+margin: 1em;
+font-size: small;
+}
 
 
 /* Mainbar formatting: handled individually */
