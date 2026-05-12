@@ -34,6 +34,9 @@ nav {
     height: var(--nav-height);
     z-index: 10;
     background-color: var(--navbar-color);
+
+    display: grid;
+    grid-template-columns: 1fr auto;
 }
 #mainbar {
     grid-area: main;
@@ -49,6 +52,7 @@ nav {
 /* Navbar layout */
 
 nav ul {
+    grid-column: 1 / 2;
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-variant: small-caps;
     list-style-type: none;
@@ -61,6 +65,19 @@ nav ul li a {
     display: block;
     padding: 1em;
     border-radius: .5em;
+}
+nav div#external-links {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap-reverse;
+    grid-column: 2 / 3;
+}
+#external-links a {
+    margin: .5em;
+}
+#external-links a img {
+    width: 25px;
+    height: 25px;
 }
 
 
