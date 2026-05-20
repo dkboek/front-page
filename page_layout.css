@@ -1,20 +1,21 @@
 body {
-background-color: hsl(164,89%,86%);
+background-color: hsl(150,89%,86%);
 }
 
 /* Basic variable definitions */
 :root {
     --sidebar-width: 25%;
     --nav-height: 5em;
-    --navbar-color: hsl(143,55%,71%);
-    --sidebar-color: hsl(143,55%,78%);
+    --navbar-color: hsl(130,65%,71%);
+    --sidebar-color: hsl(130,65%,74%);
 
-    --nav-border-color: darkslateblue;
-    --nav-background-color: hsl(219, 79%, 76%);
-    --nav-visited-color: darkslateblue;
-    --nav-hover-color: pink;
-    --nav-active-color: hsl(0,74%,85%);
-    --nav-color: cornflowerblue;
+    --nav-border-color: hsl(147,14%,20%);
+    --nav-background-color: hsl(130,25%,74%);
+    --nav-background-color-transparent: hsla(130,25%,74%,30%);
+    --nav-visited-color: hsl(147,14%,20%);
+    --nav-hover-color: hsl(76,35%,70%);
+    --nav-active-color: hsl(76,45%,70%);
+    --nav-color: hsl(147,14%,40%);
 }
 
 /* Primary block layout */
@@ -86,13 +87,14 @@ nav ul li a:link {
 text-decoration: none;
 border: 1px solid var(--nav-border-color);
 background-color: var(--nav-background-color);
+background-image: linear-gradient(to bottom, var(--nav-background-color-transparent), 80%, hsla(0,100%,100%,30%))
 }
 nav ul li a:visited {
 color: var(--nav-visited-color);
 }
 nav ul li a:hover {
 background-color: var(--nav-hover-color);
-padding: 1.1em;
+padding: 1.05em;
 }
 nav ul li a:active {
 background-color: var(--nav-active-color);
