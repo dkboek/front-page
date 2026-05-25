@@ -59,23 +59,20 @@
     margin: -15px;
     height: 310px;
     width: 310px;
-    z-index: 10;
+    z-index: 30;
   }
-  #img1 {
-    background-color: red;
+  .showcase-img img {
+    height: 270px;
+    width: 270px;
   }
-  #img2 {
-    background-color: blue;
+  .showcase-img img:hover {
+    height: revert-layer;
+    width: revert-layer;
   }
-  #img3 {
-    background-color: yellow;
-  }
-  #img4 {
-    background-color: brown;
-  }
-  #img5 {
-    background-color: green;
-  }
+  /* Setting margins to centre each image */
+  img.pulsarImage:hover { margin-left: -40px; }
+  img.backgroundImage:hover { margin-left: -150px; margin-top: -20px; }
+  img.paperImage:hover { margin-left: -50px; margin-top: -120px; }
 
   </style>
 
@@ -107,11 +104,12 @@
   <h1>Daniel Klaas Boek</h1>
   <fieldset id="image-collection">
     <legend>Image showcase</legend>
-    <div class="showcase-img" id="img1">1</div>
-    <div class="showcase-img" id="img2">2</div>
-    <div class="showcase-img" id="img3">3</div>
-    <div class="showcase-img" id="img4">4</div>
-    <div class="showcase-img" id="img5">5</div>
+    <div class="showcase-img"><img src=./images/pulsar_diagram.gif alt="Diagram of pulsar rotation" 
+        height="310px" class="pulsarImage"></div>
+    <div class="showcase-img"><img src=./images/Ozgrav_zoom_background.jpg alt="Ozgrav-branded graphic binary black hole mergers" 
+        height="360px" class="backgroundImage"></div>
+    <div class="showcase-img"><img src=./images/WD_paper_front_page.png alt="Front page of W. Dong et al. (2025) &quot;Measuring the crust-superfluid coupling time-scale for 105 UTMOST pulsars with a Kalman filter.&quot;" 
+        width="420px" class="paperImage"></div>
   </fieldset>
 </div>
 
