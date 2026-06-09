@@ -5,7 +5,8 @@ background-color: hsl(150,89%,86%);
 /* Basic variable definitions */
 :root {
     --sidebar-width: 25%;
-    --nav-height: 5em;
+    --nav-height-small: 8em;
+    --nav-height-large: 5em;
     --navbar-color: hsl(130,65%,71%);
     --sidebar-color: hsl(130,65%,74%);
 
@@ -24,7 +25,7 @@ body {
 }
 #layout {
     display: grid;
-    grid-template-rows: var(--nav-height) [main-start] minmax(50em, 1fr) [main-end footer-start] 20em [footer-end];
+    grid-template-rows: var(--nav-height-small) [main-start] minmax(50em, 1fr) [main-end footer-start] 25em [footer-end];
     grid-template-columns: [main-start footer-start] 1fr [main-end footer-end]
 }
 nav {
@@ -32,7 +33,7 @@ nav {
     grid-row: 1 / 2;
     grid-column: 1 / 2;
     width: 100%;
-    height: var(--nav-height);
+    height: var(--nav-height-small);
     z-index: 10;
     background-color: var(--navbar-color);
 
@@ -56,7 +57,7 @@ nav {
     }
     #layout {
         display: grid;
-        grid-template-rows: var(--nav-height) [main-start] minmax(50em,1fr) [main-end];
+        grid-template-rows: var(--nav-height-large) [main-start] minmax(50em,1fr) [main-end];
         grid-template-columns: [main-start] 1fr [main-end] var(--sidebar-width);
     }
     nav {
@@ -64,7 +65,7 @@ nav {
         grid-row: 1 / 2;
         grid-column: 1 / 2; 
         width: calc(100% - var(--sidebar-width));
-        height: var(--nav-height);
+        height: var(--nav-height-large);
         z-index: 10;
         background-color: var(--navbar-color);
 
@@ -91,9 +92,16 @@ nav ul {
     font-variant: small-caps;
     list-style-type: none;
     font-weight: bold;
+    font-size: 1.6em;
     display: flex;
     justify-content: center;
     gap: 0.5em;
+}
+/* Smaller nav font for large screens */
+@media screen and (min-width: 1100px) {
+    nav ul {
+        font-size: 1em;
+    }
 }
 nav ul li a {
     display: block;
@@ -142,13 +150,14 @@ margin-top: 10em;
 #sidebar h2 {
 font-family: 'Trebuchet MS', 'Lucida Sans', Arial, sans-serif;
 font-variant: small-caps;
-font-size: 1.8em;
+font-size: 2.2em;
 text-align: center;
 margin: 2em;
 }
 #tagline {
 font-family: 'Lucida Sans', Arial, sans-serif;
 line-height: 1.75em;
+font-size: 1.4em;
 text-align: center;
 word-spacing: 0.3em;
 margin: 1em;
@@ -159,7 +168,19 @@ line-height: 1.75em;
 text-align: center;
 word-spacing: 0.3em;
 margin: 1em;
-font-size: small;
+font-size: 1.1em;
+}
+/* Smaller font size for large screens */
+@media screen and (min-width: 1100px) {
+    #sidebar h2 {
+        font-size: 1.8em;
+    }
+    #tagline {
+        font-size: 1em;
+    }
+    #tagline2 {
+        font-size: 0.8em;
+    }
 }
 
 
