@@ -3,12 +3,12 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Experience</title>
+  <title>Education</title>
   <!-- Link search engines to https -->
-  <link rel="canonical" href="https://www.danielboek.com/experience.html">
-  <!-- Link layout stylesheet --> 
+  <link rel="canonical" href="https://www.danielboek.com/education.html">
+  <!-- Link layout stylesheet -->
   <link rel="stylesheet" type="text/css" href="page_layout.css">
-
+    
   <style>
   /* Define some variables */
   :root {
@@ -20,104 +20,152 @@
   }
 
   /* Currently selected page - add bottom border (and adjust padding) */
-  a#experience:link {
+  a#resume:link {
     padding-bottom: 0.6em;
     border-bottom-width: 0.4em;
     border-bottom-style: solid;
   }
-  a#experience:hover {
+  a#resume:hover {
     padding: 1.05em 1.05em 0.7em 1.05em;
   }
 
   /* Mainbar layout (page-specific content) */
-  #mainbar {
+    #mainbar {
     font-family: Georgia, 'Times New Roman', Times, serif;
     margin: 2em;
-  }
-  #mainbar h1 {
+    margin-top: 0em;
+    }
+    #mainbar h1 {
     color: var(--header-color);
     font-size: 3em;
-    margin: .2em 0 .7em 0;
-  }
-  #mainbar h2 {
+    margin: 1em 0 .7em 0;
+    }
+    #mainbar h2 {
     margin-left: 1em;
     color: var(--header-color);
-  }
-  #mainbar h3 {
+    }
+    #mainbar h3 {
     margin-left: 2em;
     color: var(--header-color);
-  }
+    }
 
-  /* Professional experience styles */
-  dl#professional {
+
+    /* Education styles */
+
+    dl.education {
     margin: 2em;
     display: flex;
     flex-flow: row wrap;
     align-items: center;
-  }
-  dl#professional > dt {
+    }
+    dl.education dt {
+    font-size: x-large;
+    flex-basis: 15%;
+    text-align: right;
+    margin: 1em;
+    font-style: italic;
+    color: gray;
+    }
+    dl.education dd {
+    flex-basis: 70%;
+    flex-grow: 1;
+    margin: 1em;
+    }
+    ul.degree {
+    padding: 1px;
+    width: 70%;
+    border: 6px solid white;
+    box-shadow: 3px 3px gray;
+    border-radius: .5em;
+    background-color: rgba(0,0,0,0.05);
+    }
+    ul.degree li {
+    list-style: none;
+    margin: .5em;
+    }
+    ul.degree li.specialty {
+    font-size: x-large;
+    font-variant: small-caps;
+    }
+    ul.degree li.mark {
+    font-size: large;
+    font-style: italic;
+    margin-left: 2em;
+    margin-bottom: 1em;
+    }
+
+
+    /* Professional experience styles */
+
+    dl#professional {
+    margin: 2em;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    }
+    dl#professional > dt {
     font-size: large;
     flex-basis: 20%;
     margin: 1em;
     text-align: right;
-  }
-  p.role {
+    }
+    p.role {
     font-size: larger;
-  }
-  p.role-dates {
+    }
+    p.role-dates {
     color: gray;
-  }
-  
-  /* Styling the individual employments */
-  dl#professional > dd {
+    }
+
+    /* Styling the individual employments */
+    dl#professional > dd {
     flex-basis: 70%;
     margin: 1em;
-  }
-  ul.employments {
+    }
+    ul.employments {
     list-style: none;
-  }
-  ul.employments dl {
+    }
+    ul.employments dl {
     padding: .5em;
     background-color: rgba(0,0,0,0.05);
     border-radius: .5em;
-  }
-  ul.employments dl dt {
+    }
+    ul.employments dl dt {
     font-variant: small-caps;
     font-size: large;
     margin-left: 15%;
     margin-top: .5em;
-  }
-  ul.employments dl dd {
+    }
+    ul.employments dl dd {
     margin: 0;
-  }
-  span.workload {
+    }
+    span.workload {
     padding: 0 .5em;
     font-style: italic;
-  }
-  ul.role-description {
+    }
+    ul.role-description {
     margin: 1em;
     list-style: none;
-  }
-  ul.role-description li {
+    }
+    ul.role-description li {
     margin: 1em 0em 1em -1em;
-  }
+    }
 
-  /* Published works styles */
-  dl.publications {
+    /* Published works styles */
+    dl.publications {
     margin: 2em;
     display: flex;
     flex-flow: row wrap;
     align-items: center;
-  }
-  dl.publications dt {
+    }
+    dl.publications dt {
     font-size: x-large;
     flex-basis: 10%;
     text-align: right;
     margin: 1em;
     font-style: italic;
     color: gray;
-  }
-  dl.publications dd {
+    }
+    dl.publications dd {
     font-size: 1.05em;
     flex-basis: 75%;
     display: block;
@@ -127,7 +175,34 @@
     border-radius: 0.5em;
     border: 4px solid white;
     box-shadow: 2px 2px gray;
-  }
+    }
+
+
+    /* Technical skills styling */
+
+    /* Styling the skill-collection list */
+    #skill-collection {
+    margin: 2em;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    }
+    #skill-collection p {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-variant: small-caps;
+    font-size: 1.15em;
+    color: rgba(0,0,0,0.7);
+    display: block;
+    flex: auto;
+    margin: 0.5em;
+    padding: .3em;
+    border: 1px solid rgba(0,0,0,0.5);
+    border-radius: .7em;
+    text-align: center;
+    }
+
   </style>
 </head>
 
@@ -137,9 +212,7 @@
 <nav>
   <ul>
     <li><a href="./index.html" id="home">Home</a></li>
-    <li><a href="./education.html" id="education">Education</a></li>
-    <li><a href="./experience.html" id="experience">Experience</a></li>
-    <li><a href="./technical.html" id="technical">Technical</a></li>
+    <li><a href="./resume.html" id="resume">Resume</a></li>
     <li>Other</li>
   </ul>
   <div id="external-links">
@@ -154,12 +227,46 @@
 </div>
 
 <div id="mainbar">
+  <h1>Education</h1>
+
+    <h2>The University of Melbourne</h2>
+
+    <dl class="education">
+      <dt>2024 - 2025</dt>
+        <dd><ul class="degree">
+          <li class="specialty">Master of Science (Physics)</li>
+          <li class="mark">WAM: 85.75</li>
+        </ul></dd>
+      <dt>2023</dt>
+        <dd><ul class="degree">
+          <li class="specialty">Bachelor of Science (Pure Mathematics)</li>
+          <li class="mark">WAM: 85.04</li>
+        </ul></dd>
+      <dt>2020 - 2022</dt>
+        <dd><ul class="degree">
+          <li class="specialty">Bachelor of Science (Physics)</li>
+          <li class="mark">WAM: 84.67</li>
+        </ul></dd>
+    </dl>
+
+    <h2>University High School</h2>
+
+    <dl class="education">
+      <dt>2014 - 2019</dt>
+        <dd><ul class="degree">
+          <li class="specialty">Victorian Certificate of Education</li>
+          <li class="mark">ATAR: 99.35</li>
+        </ul></dd>
+    </dl>
+  
+
   <h1>Professional Experience</h1>
   <dl id="professional">
     <dt><p class="role">University Tutor</p>
       <p class="role-dates">March 2023 - Current</p>
     </dt>
-    <dd> <ul class="employments"><dl>
+    <dd> 
+      <ul class="employments"><dl>
         <dt>The University of Melbourne <span class="workload">(Casual)</span></dt>
         <dd><ul class="role-description">
           <li>Teaching classes of 10 to 30 students in mathematics and physics</li>
@@ -172,7 +279,8 @@
     <dt><p class="role">Research Assistant</p>
       <p class="role-dates">July 2022</p>
     </dt>
-    <dd> <ul class="employments"><dl class="employment">
+    <dd> 
+      <ul class="employments"><dl class="employment">
         <dt>The University of Melbourne <span class="workload">(Full-time)</span></dt>
         <dd><ul class="role-description">
           <li>Completed a winter research project investigating properties of optical nanostructures, as part of the Laby Research Scholars Program</li>
@@ -183,7 +291,8 @@
     <dt><p class="role">Software Assistant</p>
       <p class="role-dates">December 2016 - August 2021</p>
     </dt>
-    <dd> <ul class="employments"><dl class="employment">
+    <dd> 
+      <ul class="employments"><dl class="employment">
         <dt>Metropolis Metering Services <span class="workload">(Casual)</span></dt>
         <dd><ul class="role-description">
           <li>Developed three software programs, largely using Python and Java (Apache Groovy), including a new user-friendly automated email system for customer billing procedures</li>
@@ -207,9 +316,21 @@
     <dt>2026*</dt>
     <dd>Does the crust-superfluid coupling time-scale change before, during, and after a radio pulsar glitch?</dd>
   </dl>
+
+  <h1>Technical Skills</h1>
+
+  <div id="skill-collection">
+    <p>Python</p>
+    <p>HTML/CSS</p>
+    <p>C</p>
+    <p>Kalman Filter</p>
+    <p>Fluid Dynamics</p>
+    <p>R</p>
+    <p>Signal Processing</p>
+  </div>
 </div>
 
 </div>
-
 </body>
+
 </html>
