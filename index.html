@@ -10,6 +10,12 @@
   <link rel="stylesheet" type="text/css" href="./page_layout.css">
 
   <style>
+    /* Define some variables */
+    :root {
+      --header-color: hsl(147,14%,15%);
+      --header-shadow-color: hsla(0,0%,50%,30%);
+      --collection-border-color: hsla(0,0%,10%,50%);
+    }
   
   /* Primary block layout - defined in page_layout.css */
 
@@ -29,9 +35,9 @@
   h1 {
     text-align: center;
     font-family: Georgia, serif;
-    color: hsl(147,14%,15%);
+    color: var(--header-color);
     font-size: 5em;
-    text-shadow: 5px 5px 10px hsla(0,0%,50%,30%);
+    text-shadow: 5px 5px 10px var(--header-shadow-color);
     margin: 1em;
   }
   #image-collection {
@@ -39,7 +45,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-start;
-    border: 2px dotted darkcyan;
+    border: 2px dotted var(--collection-border-color);
     border-radius: 0.25em;
     margin: 3em;
   }
