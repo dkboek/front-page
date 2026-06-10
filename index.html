@@ -46,33 +46,49 @@
   #image-collection legend {
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-style: italic;
-    font-size: 1.5em;
+    font-size: 2.5em;
     font-variant: small-caps;
   }
   .showcase-img {
     display: block;
-    margin: 5px;
-    height: 270px;
-    width: 270px;
-  }
-  .showcase-img:hover {
-    margin: -15px;
-    height: 310px;
-    width: 310px;
-    z-index: 30;
+    margin: 2em 1em;
+    width: 100%;
+    height: auto;
   }
   .showcase-img img {
-    height: 270px;
-    width: 270px;
+    width: 100%; 
+    height: auto;
   }
-  .showcase-img img:hover {
-    height: revert-layer;
-    width: revert-layer;
+  /* Increase to multiple images per line for larger screens */
+  @media screen and (min-width: 1000px) {
+    #image-collection legend {
+      font-size: 1.5em;
+    }
+    .showcase-img {
+      display: block;
+      margin: 5px;
+      height: 270px;
+      width: 270px;
+    }
+    .showcase-img:hover {
+      margin: -15px;
+      height: 310px;
+      width: 310px;
+      z-index: 30;
+    }
+    .showcase-img img {
+      height: 270px;
+      width: 270px;
+    }
+    .showcase-img img:hover {
+      height: revert-layer;
+      width: revert-layer;
+    }
+    /* Setting margins to centre each image */
+    img.pulsarImage:hover { margin-left: -40px; }
+    img.backgroundImage:hover { margin-left: -150px; margin-top: -20px; }
+    img.paperImage:hover { margin-left: -50px; margin-top: -120px; }
   }
-  /* Setting margins to centre each image */
-  img.pulsarImage:hover { margin-left: -40px; }
-  img.backgroundImage:hover { margin-left: -150px; margin-top: -20px; }
-  img.paperImage:hover { margin-left: -50px; margin-top: -120px; }
 
   </style>
 
@@ -85,7 +101,7 @@
   <ul>
     <li><a href="./index.html" id="home">Home</a></li>
     <li><a href="./resume.html" id="resume">Resume</a></li>
-    <li>Other</li>
+    <li>Proverbs</li>
   </ul>
   <div id="external-links">
     <a href="https://github.com/dkboek/front-page.git"><img src="./images/github_icon.png" alt="Github"></a>
