@@ -1,5 +1,5 @@
 body {
-background-color: hsl(150,89%,86%);
+background-color: rgb(27,38,9);
 }
 
 /* Basic variable definitions */
@@ -7,19 +7,20 @@ background-color: hsl(150,89%,86%);
     --sidebar-width: 25%;
     --nav-height-small: 8em;
     --nav-height-large: 5em;
-    --navbar-color: hsl(130,65%,71%);
-    --sidebar-color: hsl(130,65%,74%);
+    --navbar-color: rgb(40,56,13);
+    --sidebar-color: rgb(40,56,13);
 
-    --nav-border-color: hsl(147,14%,20%);
-    --nav-background-color: hsl(130,25%,74%);
-    --nav-background-color-transparent: hsla(130,25%,74%,30%);
-    --nav-text-color: hsl(147,14%,20%);
+    --nav-border-color: rgb(252,255,237);
+    --nav-border-width: 1px;
+    --nav-background-color: rgb(44,92,22);
+    --nav-background-color-transparent: rgba(44,92,22,0.3);
+    --nav-text-color: rgb(27,43,34);
     --nav-hover-color: hsl(76,35%,70%);
     --nav-active-color: hsl(76,45%,70%);
 
-    --sidebar-text-color: black;
+    --sidebar-text-color: rgb(184,156,30);
 
-    --mainbar-text-color: black;
+    --mainbar-text-color: rgb(184,156,30);
 }
 
 /* Primary block layout */
@@ -139,13 +140,14 @@ nav div#external-links {
 /* Link effects (mostly) */
 nav ul li a:link {
 text-decoration: none;
-border: 1px solid var(--nav-border-color);
+color: var(--nav-text-color);
+border: var(--nav-border-width) solid var(--nav-border-color);
 background-color: var(--nav-background-color);
 background-image: linear-gradient(to bottom, var(--nav-background-color-transparent), 80%, hsla(0,100%,100%,30%));
-color: var(--nav-text-color);
 }
 nav ul li a:visited {
 color: var(--nav-text-color);
+border: var(--nav-border-width) solid var(--nav-border-color);
 }
 nav ul li a:hover {
 background-color: var(--nav-hover-color);

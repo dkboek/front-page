@@ -12,16 +12,17 @@
   <style>
   /* Define some variables */
   :root {
-    --header-color: hsl(147,14%,20%);
-    --publication-background-color: hsl(130,65%,95%);
+    --header-color: rgb(201,171,32);
+    --publication-background-color: rgba(255,255,255,0.05);
+    --publication-text-color: rgb(201,171,32);
     --date-color: gray;
 
     --box-border-color: white;
     --box-shadow-color: gray;
-    --box-background-color: rgba(0,0,0,0.05);
+    --box-background-color: rgba(255,255,255,0.05);
 
-    --skill-text-color: rgba(0,0,0,0.7);
-    --skill-border-color: rgba(0,0,0,0.5);
+    --skill-text-color: rgba(255,255,255,0.7);
+    --skill-border-color: rgba(255,255,255,0.5);
   }
   body {
     font-size: 16px;
@@ -165,6 +166,7 @@
   display: flex;
   flex-flow: row wrap;
   align-items: center;
+  color: var(--publication-text-color);
   }
   dl.publications dt {
   font-size: x-large;
