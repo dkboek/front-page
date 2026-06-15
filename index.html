@@ -14,6 +14,7 @@
     :root {
       --header-color: rgb(201,171,32);
       --header-shadow-color: rgba(201,171,32,20%);
+      --box-shadow-color: rgba(0,0,0,50%);
       --collection-border-color: rgba(255,255,255,50%);
     }
   
@@ -40,6 +41,8 @@
     text-shadow: 5px 5px 10px var(--header-shadow-color);
     margin: 1em;
   }
+
+  /* Styling the image collection, for all screen sizes */
   #image-collection {
     display: flex;
     flex-direction: row;
@@ -47,7 +50,7 @@
     justify-content: flex-start;
     border: 2px dotted var(--collection-border-color);
     border-radius: 0.25em;
-    margin: 3em;
+    margin: 5em;
   }
   #image-collection legend {
     font-family: Georgia, 'Times New Roman', Times, serif;
@@ -64,36 +67,31 @@
   .showcase-img img {
     width: 100%; 
     height: auto;
+    box-shadow: 5px 5px 10px var(--box-shadow-color);
+    transition: transform 0.3s ease-in-out;
   }
+
   /* Increase to multiple images per line for larger screens */
   @media screen and (min-width: 1000px) {
     #image-collection legend {
       font-size: 1.5em;
     }
+    
+    img.paperImage {height: 300px; width: 300px;}
     .showcase-img {
       display: block;
       margin: 5px;
-      height: 270px;
-      width: 270px;
+      max-height: 260px;
+      max-width: 260px;
     }
-    .showcase-img:hover {
-      margin: -15px;
-      height: 310px;
-      width: 310px;
-      z-index: 30;
+    .showcase-img {
+      max-height: 300px;
+      max-width: 300px;
     }
-    .showcase-img img {
-      height: 270px;
-      width: 270px;
+    .showcase-img:hover img {
+      transform: scale(1.65);
+      box-shadow: 8px 8px 16px var(--box-shadow-color);
     }
-    .showcase-img img:hover {
-      height: revert-layer;
-      width: revert-layer;
-    }
-    /* Setting margins to centre each image */
-    img.pulsarImage:hover { margin-left: -40px; }
-    img.backgroundImage:hover { margin-left: -150px; margin-top: -20px; }
-    img.paperImage:hover { margin-left: -50px; margin-top: -120px; }
   }
 
   </style>
@@ -126,15 +124,15 @@
     <legend>Image showcase</legend>
     <div class="showcase-img">
       <a href="https://science.nasa.gov/mission/hubble/science/science-behind-the-discoveries/hubble-pulsars/"><img src=./images/pulsar_diagram_282x215.gif alt="Diagram of pulsar rotation" 
-        height="310px" class="pulsarImage"></a>
+        class="pulsarImage"></a>
     </div>
     <div class="showcase-img">
       <a href="https://www.ozgrav.org/"><img src=./images/Ozgrav_zoom_background_1536x864.jpg alt="Ozgrav-branded graphic binary black hole mergers" 
-        height="360px" class="backgroundImage"></a>
+        class="backgroundImage"></a>
     </div>
     <div class="showcase-img">
       <a href="https://academic.oup.com/mnras/article/545/4/staf2053/8327614"><img src=./images/WD_paper_front_page_778x1024.png alt="Front page of W. Dong et al. (2025) &quot;Measuring the crust-superfluid coupling time-scale for 105 UTMOST pulsars with a Kalman filter.&quot;" 
-        width="420px" class="paperImage"></a>
+        class="paperImage"></a>
     </div>
   </fieldset>
 </div>

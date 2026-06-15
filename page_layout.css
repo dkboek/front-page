@@ -114,6 +114,9 @@ nav ul li a {
     display: block;
     padding: 1em;
     border-radius: .5em;
+    border: var(--nav-border-width) solid var(--nav-border-color);
+    background-image: linear-gradient(to bottom, var(--nav-background-color-transparent), 80%, hsla(0,100%,100%,30%));
+    background-color: var(--nav-background-color);
 }
 nav div#external-links {
     display: flex;
@@ -137,17 +140,18 @@ nav div#external-links {
 }
 
 
-/* Link effects (mostly) */
+/* Link effects (excluding page-specific effects) */
 nav ul li a:link {
 text-decoration: none;
 color: var(--nav-text-color);
-border: var(--nav-border-width) solid var(--nav-border-color);
-background-color: var(--nav-background-color);
-background-image: linear-gradient(to bottom, var(--nav-background-color-transparent), 80%, hsla(0,100%,100%,30%));
 }
 nav ul li a:visited {
 color: var(--nav-text-color);
 border: var(--nav-border-width) solid var(--nav-border-color);
+}
+nav ul li a {
+transition: background-color 0.2s linear,
+            padding 0.08s;
 }
 nav ul li a:hover {
 background-color: var(--nav-hover-color);
@@ -155,6 +159,7 @@ padding: 1.05em;
 }
 nav ul li a:active {
 background-color: var(--nav-active-color);
+padding: 0.95em;
 }
 
 
