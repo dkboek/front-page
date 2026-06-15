@@ -104,6 +104,12 @@
   margin-bottom: 1em;
   }
 
+  /* Disable high school details for now (embarassing) */
+
+  #high-school, #high-school-title {
+    display: none;
+  }
+
 
   /* Professional experience styles */
 
@@ -224,7 +230,7 @@
   <ul>
     <li><a href="./index.html" id="home">Home</a></li>
     <li><a href="./resume.html" id="resume">Resume</a></li>
-    <li>Proverbs</li>
+    <li><a href="./proverbs.html" id="proverbs">Proverbs</a></li>
   </ul>
   <div id="external-links">
     <a href="https://github.com/dkboek/front-page.git"><img src="./images/github_icon.png" alt="Github"></a>
@@ -260,9 +266,9 @@
         </ul></dd>
     </dl>
 
-    <h2>University High School</h2>
+    <h2 id="high-school-title">University High School</h2>
 
-    <dl class="education">
+    <dl class="education" id="high-school">
       <dt>2014 - 2019</dt>
         <dd><ul class="degree">
           <li class="specialty">Victorian Certificate of Education</li>

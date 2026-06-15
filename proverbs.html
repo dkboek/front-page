@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Daniel Klaas Boek</title>
+  <link rel="canonical" href="https://www.danielboek.com/index.html">
+  <!-- Link layout stylesheet -->
+  <link rel="stylesheet" type="text/css" href="./page_layout.css">
+
+  <style>
+
+  /* Define some variables */
+  :root {
+    --header-color: rgb(201,171,32);
+  }
+  
+  /* Primary block layout - defined in page_layout.css */
+
+  /* Currently selected page - add bottom border (and adjust padding) */
+  a#proverbs:link {
+    padding-bottom: 0.6em;
+    border-bottom-width: 0.4em;
+    border-bottom-style: solid;
+  }
+  a#proverbs:hover {
+    padding: 1.05em 1.05em 0.7em 1.05em;
+  }
+  </style>
+</head>
+
+<body>
+<div id="layout">
+
+<nav>
+  <ul>
+    <li><a href="./index.html" id="home">Home</a></li>
+    <li><a href="./resume.html" id="resume">Resume</a></li>
+    <li><a href="./proverbs.html" id="proverbs">Proverbs</a></li>
+  </ul>
+  <div id="external-links">
+    <a href="https://github.com/dkboek/front-page.git"><img src="./images/github_icon.png" alt="Github"></a>
+  </div>
+</nav>
+
+<div id="sidebar">
+  <h2>Welcome to the garden.</h2>
+  <p id="tagline">Please, enjoy your stay.</p>
+  <p id="tagline2"></p>
+</div>
+
+<div id="mainbar">
+
+</div>
+
+</div>
+</body>
+
+
+</html>
