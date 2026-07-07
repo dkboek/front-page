@@ -13,6 +13,9 @@
   /* Define some variables */
   :root {
     --header-color: rgb(201,171,32);
+    --proverb-back-color-light: rgba(255,255,255,0.12);
+    --proverb-back-color-middle: rgba(255,255,255,0.05);
+    --proverb-back-color-dark: rgba(0,0,0,0.15);
   }
   
   /* Primary block layout - defined in page_layout.css */
@@ -26,6 +29,45 @@
   a#proverbs:hover {
     padding: 1.05em 1.05em 0.7em 1.05em;
   }
+
+  /* Mainbar layout (page-specific content) */
+
+  #mainbar {
+    position: relative;
+  }
+  .proverb {
+    position: absolute;
+    border-radius: 8px;
+    background-image: linear-gradient(180deg, var(--proverb-back-color-light),
+                        var(--proverb-back-color-middle) 30%,
+                        var(--proverb-back-color-middle) 55%,
+                        var(--proverb-back-color-dark) 100%);
+  }
+  .proverb p {
+    padding: 0;
+    margin: .4em 1em;
+    font-size: 1.3em;
+  }
+  .proverb#p1 {
+    top: 10%;
+    left: 10%;
+    height: 2.5em;
+    width: 16em;
+    text-align: center;
+    justify-content: center;
+  }
+  .proverb#p2 {
+    top: 20%;
+    right: 10%;
+    text-align: left;
+    height: 7em;
+    width: 22em;
+  }
+  #p2-2 {
+    text-align: right;
+    margin-top: 2em;
+  }
+
   </style>
 </head>
 
@@ -50,7 +92,13 @@
 </div>
 
 <div id="mainbar">
-
+<div class="proverb" id="p1">
+  <p>The medium tells a tale.</p>
+</div>
+<div class="proverb" id="p2">
+  <p>My meds still haven't kicked in</p>
+  <p id="p2-2">for some reason.</p>
+</div>
 </div>
 
 </div>
