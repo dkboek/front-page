@@ -34,6 +34,7 @@
 
   #mainbar {
     position: relative;
+    font-size: 1.2em;
   }
   .proverb {
     position: absolute;
@@ -77,6 +78,12 @@
     margin-bottom: .5em;
   }
 
+  /* Smaller font size for large screens */
+  @media screen and (min-width: 1100px) {
+    #mainbar {
+      font-size: medium;
+    }
+  }
   </style>
 </head>
 

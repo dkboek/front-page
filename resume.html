@@ -39,8 +39,10 @@
   }
 
   /* Mainbar layout (page-specific content) */
+  /* Note: these define the large font sizes, for smaller screens (large screens below) */
   #mainbar {
   font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 1.5em;
   margin: 2em;
   margin-top: 0em;
   }
@@ -62,23 +64,23 @@
   /* Education styles */
 
   dl.education {
-  margin: 2em;
+  margin: 0em;
   display: flex;
   flex-flow: row wrap;
   align-items: center;
   }
   dl.education dt {
-  font-size: x-large;
-  flex-basis: 15%;
+  font-size: 1.25em;
+  flex-basis: 20%;
   text-align: right;
-  margin: 1em;
+  margin: 0.25em;
   font-style: italic;
   color: var(--date-color);
   }
   dl.education dd {
   flex-basis: 70%;
   flex-grow: 1;
-  margin: 1em;
+  margin: 1em 0em;
   }
   ul.degree {
   padding: 1px;
@@ -94,17 +96,17 @@
   margin: .5em;
   }
   ul.degree li.specialty {
-  font-size: x-large;
+  font-size: 1.5em;
   font-variant: small-caps;
   }
   ul.degree li.mark {
-  font-size: large;
+  font-size: 1.2em;
   font-style: italic;
   margin-left: 2em;
   margin-bottom: 1em;
   }
 
-  /* Disable high school details for now (embarassing) */
+  /* Disable high school details for now (embarrassing) */
 
   #high-school, #high-school-title {
     display: none;
@@ -114,15 +116,15 @@
   /* Professional experience styles */
 
   dl#professional {
-  margin: 2em;
+  margin: 0em;
   display: flex;
   flex-flow: row wrap;
   align-items: center;
   }
   dl#professional > dt {
-  font-size: large;
-  flex-basis: 20%;
-  margin: 1em;
+  font-size: 1.2em;
+  flex-basis: 25%;
+  margin: 0em;
   text-align: right;
   }
   p.role {
@@ -131,12 +133,12 @@
   p.role-dates {
   color: var(--date-color);
   }
+  dl#professional > dd {
+  flex-basis: 65%;
+  margin: 1em 0 1em 1em;
+  }
 
   /* Styling the individual employments */
-  dl#professional > dd {
-  flex-basis: 70%;
-  margin: 1em;
-  }
   ul.employments {
   list-style: none;
   }
@@ -147,7 +149,7 @@
   }
   ul.employments dl dt {
   font-variant: small-caps;
-  font-size: large;
+  font-size: 1.12em;
   margin-left: 15%;
   margin-top: .5em;
   }
@@ -175,7 +177,7 @@
   color: var(--publication-text-color);
   }
   dl.publications dt {
-  font-size: x-large;
+  font-size: 1.5em;
   flex-basis: 10%;
   text-align: right;
   margin: 1em;
@@ -218,6 +220,36 @@
   border: 1px solid var(--skill-border-color);
   border-radius: .7em;
   text-align: center;
+  }
+
+  /* Smaller font size and slight layout adjustments for large screens */
+  @media screen and (min-width: 1100px) {
+    #mainbar {
+      font-size: medium;
+    }
+
+    dl.education {
+      margin: 2em;
+    }
+    dl.education dt {
+      flex-basis: 15%;
+      margin: 1em;
+    }
+    dl.education dd {
+      margin: 1em;
+    }
+
+    dl#professional {
+      margin: 2em;
+    }
+    dl#professional > dt {
+      flex-basis: 19%;
+      margin: 1em;
+    }
+    dl#professional > dd {
+      flex-basis: 70%;
+      margin: 1em;
+    }
   }
 
   </style>
