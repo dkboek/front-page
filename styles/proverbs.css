@@ -58,12 +58,16 @@ a#proverbs:hover {
   margin-top: 2em;
 }
 .proverb#p3 {
-  top: 40%;
-  left: 30%;
+  top: 30%;
+  left: 20%;
   height: 5em;
 }
 #p3 * {
   margin-bottom: .5em;
+}
+.proverb#p4 {
+  top: 50%;
+  left: 40%;
 }
 
 /* Smaller font size for large screens */
