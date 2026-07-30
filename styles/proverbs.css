@@ -1,6 +1,11 @@
 /* Define some variables */
 :root {
   --header-color: rgb(201,171,32);
+
+  --sidebar-textarea-color: rgba(255,255,255,0.4);
+  --sidebar-button-color: rgba(255,255,255,0.25);
+  --sidebar-textarea-placeholder-color: rgba(0,0,0,0.4);
+
   --proverb-back-color-light: rgba(255,255,255,0.12);
   --proverb-back-color-middle: rgba(255,255,255,0.05);
   --proverb-back-color-dark: rgba(0,0,0,0.15);
@@ -81,6 +86,8 @@ a#proverbs:hover {
 
 #sidebar form {
   margin: 5em 0.5em 1em 1em;
+  font-family: 'Lucida Sans', Arial, sans-serif;
+  font-size: 0.75em;
 }
 #sidebar form ul {
   list-style: none;
@@ -98,17 +105,27 @@ a#proverbs:hover {
 }
 #sidebar form textarea {
   margin-left: 5%;
+  margin-top: 0.3em;
   width: 90%;
   resize: none;
+  background-color: var(--sidebar-textarea-color);
+  color: black;
+  border: 2px solid var(--sidebar-textarea-placeholder-color);
+}
+textarea::placeholder {
+  color: var(--sidebar-textarea-placeholder-color);
 }
 #sidebar form button {
+  font-family: 'Lucida Sans', Arial, sans-serif;
+  border-radius: 0.25em;
+  background-color: var(--sidebar-button-color);
   float: right;
   margin-right: 5%;
 }
 /* Submitted! text styling */
 p#successText {
   float: right;
-  padding-right: 4%;
+  padding-right: 3%;
   transition-property: opacity;
   transition-duration: 0.1s;
   transition-timing-function: ease-in-out;
