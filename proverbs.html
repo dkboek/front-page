@@ -38,6 +38,7 @@
         <textarea type="textarea" id="proverbSubmission" placeholder="I think, therefore I am" rows="5"></textarea>
       </label></li>
       <li><button id="submit" type="button">Submit</button></li>
+      <li><p id="successText"></p></li>
     </ul>
   </form>
 </div>
@@ -62,6 +63,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script type="module">
 
   // Establishing a connection with the database
@@ -86,20 +88,30 @@
   }
 
 
-  // Now we find the entry box and submit button where the new proverb has been entered
+  // Now we find the entry box, submit button, and confirmation text for the form
+  //  where the new proverb has been entered
   const proverbSubmissionEl = document.getElementById('proverbSubmission');
   const submitEl = document.getElementById('submit');
+  const successText = document.getElementById('successText');
 
   async function submitProverb() {
     try {
       // To submit a proverb, we read the contents of the input textarea and upload to supabase
       const submissionText = proverbSubmissionEl.value;
+      // If empty, we get annoyed
+      if (submissionText == "") {
+        successText.innerHTML = "Please enter a proverb.";
+        successText.style.opacity = 1;
+        return;
+      }
 
       const { data, error } = await _supabase
         .from('proverbList')
         .insert({ proverb_text:  submissionText});
       
       console.log("Proverb successfully submitted")
+      successText.innerHTML = "Submitted!";
+      successText.style.opacity = 1;
       
       // Reset the textarea, and display the Submitted! text **TODO
       proverbSubmissionEl.value = "";

@@ -105,6 +105,15 @@ a#proverbs:hover {
   float: right;
   margin-right: 5%;
 }
+/* Submitted! text styling */
+p#successText {
+  float: right;
+  padding-right: 4%;
+  transition-property: opacity;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-in-out;
+  opacity: 0;
+}
 
 
 /* Smaller font size for large screens */
