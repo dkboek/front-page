@@ -30,6 +30,16 @@
   <h2>Welcome to the garden.</h2>
   <p id="tagline">Please, enjoy your stay.</p>
   <p id="tagline2"></p>
+
+  <form>
+    <ul>
+      <li><p>Submit your own proverb! Your proverb will be verified, then added to the active list of proverbs.</p></li>
+      <li><label for="proverbSubmission">Your proverb here: </label>
+        <textarea type="textarea" id="proverbSubmission" placeholder="I think, therefore I am" rows="5"></textarea>
+      </label></li>
+      <li><button id="submit" type="button">Submit</button></li>
+    </ul>
+  </form>
 </div>
 
 <div id="mainbar">
@@ -50,6 +60,167 @@
 </div>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="module">
+
+  // Establishing a connection with the database
+  const { createClient } = supabase;
+
+  const supabaseUrl = 'https://gcjbnacgmqfbdjojjcpk.supabase.co';
+  const supabaseKey = 'sb_publishable_FcJji5hAsVfZHm75QkVgnw_JiAcNhMg';
+  const _supabase = createClient(supabaseUrl, supabaseKey);
+
+  // Testing connection
+  try {
+    const { data, error } = await _supabase
+      .from('proverbList')
+      .select()
+      .eq('id', 0);
+    
+    // console.log("Response: " + testResponse);
+    console.log("Error: " + error);
+    console.log("Data: " + data[0].proverb_text);
+  } catch (err) {
+    console.log(err);
+  }
+
+
+  // Now we find the entry box and submit button where the new proverb has been entered
+  const proverbSubmissionEl = document.getElementById('proverbSubmission');
+  const submitEl = document.getElementById('submit');
+
+  async function submitProverb() {
+    try {
+      // To submit a proverb, we read the contents of the input textarea and upload to supabase
+      const submissionText = proverbSubmissionEl.value;
+
+      const { data, error } = await _supabase
+        .from('proverbList')
+        .insert({ proverb_text:  submissionText});
+      
+      console.log("Proverb successfully submitted")
+      
+      // Reset the textarea, and display the Submitted! text **TODO
+      proverbSubmissionEl.value = "";
+
+    } catch (err) {
+      console.error(err);
+      alert("Error: there was a problem when submitting your proverb, please try again")
+    }
+  }
+
+  submitEl.addEventListener("click", submitProverb);
+
+
+  function randomInt(max, min = 0) {
+    // Generates a random integer between min (inclusive) and max (exclusive)
+    if (min != 0) {
+      const temp = min;
+      min = max;
+      max = temp;
+    }
+    return min + Math.floor(Math.random() * max)
+  }
+
+  async function selectProverbs( maxNum = 7 ) {
+    
+    const { data, error } = await _supabase
+      .from('proverbList')
+      .select()
+      .eq('approved', true);
+    const objectList = data;
+    let activeProverbList = [];
+    
+    for ( let i = 0; i < maxNum; i++ ) {
+      if ( objectList.length == 0 ) {
+        break
+      }
+      // Generate an index between zero and length-1, to select random proverbs sequentially
+      const randomIndex = randomInt(objectList.length);
+      const newText = objectList[randomIndex].proverb_text;
+
+      activeProverbList.push( newText );
+      objectList.splice(randomIndex, 1);
+    }
+
+    return activeProverbList;
+  }
+
+
+  function findSuitableLocation( locationList ) {
+    // This function picks a random location, repeatedly, until it
+    //  doesn't conflict with the locations in locationList
+    let locationSuitable = false;
+    let location = [];
+    while (!locationSuitable) {
+      location = [randomInt(10,70), randomInt(10,60)];
+      // First location is always accepted
+      if ( locationList.length == 0 ) {
+        return location;
+      }
+      
+      // Check whether current location is too close to any other location
+      for ( let i = 0; i < locationList.length; i++ ) {
+        const oldLocation = locationList[i];
+        if ( Math.abs(location[0] - oldLocation[0]) > 10 
+                    && Math.abs(location[1] - oldLocation[1]) > 10 ) {
+          locationSuitable = true;
+        } else {
+          locationSuitable = false;
+          break;
+        }
+      }
+    }
+    // If we make it through, the location was suitable
+    return location;
+  }
+
+
+  function arrangeProverbs( proverbList ) {
+
+    // Establish mainbar object
+    const mainbar = document.querySelectorAll('div#mainbar')[0];
+    
+    // Each proverb is arranged, given appropriate styles, 
+    //  then placed in a non-conflicting location
+    const locationList = [];
+
+    for ( let i = 0; i < proverbList.length; i++ ) {
+      const proverbText = proverbList[i];
+
+      const newProverb = document.createElement("div");
+      newProverb.setAttribute("class", "proverb");
+
+      // Handling multi-line proverbs
+      const paragraphList = proverbText.split('\n');
+      for ( let i = 0; i < paragraphList.length; i++ ) {
+        const paragraph = document.createElement("p");
+        paragraph.innerHTML = paragraphList[i];
+        newProverb.appendChild(paragraph)
+      }
+
+      // Finding a good location
+      const location = findSuitableLocation(locationList);
+      locationList.push( location );
+
+      // Choose the newly-found location as the placement for the current proverb
+      newProverb.style.left = location[0] + "%";
+      newProverb.style.top = location[1] + "%";
+
+      mainbar.appendChild(newProverb);
+
+    }
+  }
+
+  
+
+  // On initial load, we select up to 7 of the approved proverbs
+  const proverbList = await selectProverbs(7);
+  // Then, we arrange them appropriately across the screen
+  arrangeProverbs(proverbList);
+
+</script>
 </body>
 
 
