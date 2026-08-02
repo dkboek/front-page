@@ -69,9 +69,16 @@
   // Establishing a connection with the database
   const { createClient } = supabase;
 
-  const supabaseUrl = 'https://gcjbnacgmqfbdjojjcpk.supabase.co';
-  const supabaseKey = 'sb_publishable_FcJji5hAsVfZHm75QkVgnw_JiAcNhMg';
-  const _supabase = createClient(supabaseUrl, supabaseKey);
+  let _supabase;
+  try {
+    const supabaseUrl = 'https://gcjbnacgmqfbdjojjcpk.supabase.co';
+    const supabaseKey = 'sb_publishable_FcJji5hAsVfZHm75QkVgnw_JiAcNhMg';
+    _supabase = createClient(supabaseUrl, supabaseKey);
+  } catch (err) {
+    console.log("Error when creating client: " + err);
+  } finally {
+    console.log("Client created");
+  }
 
   // Testing connection
   try {
@@ -80,12 +87,19 @@
       .select()
       .eq('id', 0);
     
-    // console.log("Response: " + testResponse);
-    console.log("Error: " + error);
-    console.log("Data: " + data[0].proverb_text);
+    console.log("Testing connection, errors are " + error);
   } catch (err) {
-    console.log(err);
+    console.log("Error in testing database connection: " + err);
+  } finally {
+    console.log("Database connection established");
   }
+
+  // Establish some key sizing elements, to find em and % element sizes
+  const mainbarWidth = document.querySelectorAll('div#mainbar')[0].offsetWidth;
+  const mainbarHeight = document.querySelectorAll('div#mainbar')[0].offsetHeight;
+  const oneEm = 16
+  const onePercentX = mainbarWidth / 100;
+  const onePercentY = mainbarHeight / 100;
 
 
   // Now we find the entry box, submit button, and confirmation text for the form
@@ -109,16 +123,18 @@
         .from('proverbList')
         .insert({ proverb_text:  submissionText});
       
-      console.log("Proverb successfully submitted")
+      console.log("Proverb successfully submitted");
+      
+      // Reset the textarea, and display the Submitted! text
+      proverbSubmissionEl.value = "";
       successText.innerHTML = "Submitted!";
       successText.style.opacity = 1;
-      
-      // Reset the textarea, and display the Submitted! text **TODO
-      proverbSubmissionEl.value = "";
 
     } catch (err) {
-      console.error(err);
-      alert("Error: there was a problem when submitting your proverb, please try again")
+      console.error("Error when submitting proverb: " + err);
+      alert("Error: there was a problem when submitting your proverb, please try again");
+    } finally {
+      console.log("Proverb submission complete");
     }
   }
 
@@ -137,52 +153,77 @@
 
   async function selectProverbs( maxNum = 7 ) {
     
-    const { data, error } = await _supabase
-      .from('proverbList')
-      .select()
-      .eq('approved', true);
-    const objectList = data;
-    let activeProverbList = [];
-    
-    for ( let i = 0; i < maxNum; i++ ) {
-      if ( objectList.length == 0 ) {
-        break
-      }
-      // Generate an index between zero and length-1, to select random proverbs sequentially
-      const randomIndex = randomInt(objectList.length);
-      const newText = objectList[randomIndex].proverb_text;
+    let activeProverbList;
+    try {
+      const { data, error } = await _supabase
+        .from('proverbList')
+        .select()
+        .eq('approved', true);
+      const objectList = data;
+      activeProverbList = [];
+      
+      for ( let i = 0; i < maxNum; i++ ) {
+        if ( objectList.length == 0 ) {
+          break
+        }
+        // Generate an index between zero and length-1, to select random proverbs sequentially
+        const randomIndex = randomInt(objectList.length);
+        const newText = objectList[randomIndex].proverb_text;
 
-      activeProverbList.push( newText );
-      objectList.splice(randomIndex, 1);
+        activeProverbList.push( newText );
+        objectList.splice(randomIndex, 1);
+      }
+    } catch (err) {
+      console.log("Error when loading in proverbs: " + err);
+      activeProverbList = ["Solitude is always right around the corner"];
+    } finally {
+      console.log("Proverb selection complete");
     }
 
     return activeProverbList;
   }
 
 
+  console.log("mainbar width: " + document.querySelectorAll('div#mainbar')[0].offsetWidth);
+
   function findSuitableLocation( locationList ) {
     // This function picks a random location, repeatedly, until it
     //  doesn't conflict with the locations in locationList
     let locationSuitable = false;
     let location = [];
+    let failures = 0;
+
     while (!locationSuitable) {
-      location = [randomInt(10,70), randomInt(10,60)];
+
+      // If we have too many failures, we break out
+      if (failures >= 1000) {
+        return null;
+      }
+
+      // Generate location (in px)
+      location = [randomInt(5,100 - 18*oneEm/onePercentX)*onePercentX, randomInt(5,60)*onePercentY];
+
       // First location is always accepted
       if ( locationList.length == 0 ) {
         return location;
       }
       
       // Check whether current location is too close to any other location
+      function checkDistance(location1,location2,width,height) {
+        const x1 = location1[0]; const y1 = location1[1];
+        const x2 = location2[0]; const y2 = location2[1];
+        return (Math.abs(x1-x2) > width) || (Math.abs(y1-y2) > height);
+      }
       for ( let i = 0; i < locationList.length; i++ ) {
         const oldLocation = locationList[i];
-        if ( Math.abs(location[0] - oldLocation[0]) > 10 
-                    && Math.abs(location[1] - oldLocation[1]) > 10 ) {
+        if ( checkDistance(location, oldLocation, 20*oneEm, 8*oneEm) ) {
           locationSuitable = true;
         } else {
           locationSuitable = false;
           break;
         }
       }
+      failures++;
     }
     // If we make it through, the location was suitable
     return location;
@@ -214,11 +255,15 @@
 
       // Finding a good location
       const location = findSuitableLocation(locationList);
+      if (!location) {
+        console.log("Unable to find suitable proverb location");
+        continue;
+      }
       locationList.push( location );
 
       // Choose the newly-found location as the placement for the current proverb
-      newProverb.style.left = location[0] + "%";
-      newProverb.style.top = location[1] + "%";
+      newProverb.style.left = location[0] + "px";
+      newProverb.style.top = location[1] + "px";
 
       mainbar.appendChild(newProverb);
 
