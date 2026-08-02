@@ -119,11 +119,11 @@ a#proverbs:hover {
   margin: 0.4em;
   text-align: center;
   margin-bottom: 1em;
-  font-size: 1.5em;
+  font-size: 1.2em;
 }
 #sidebar form label {
   margin: 0.4em;
-  font-size: 1.4em;
+  font-size: 1.1em;
 }
 #sidebar form textarea {
   margin-left: 5%;
@@ -140,6 +140,8 @@ textarea::placeholder {
 }
 #sidebar form button {
   font-family: 'Lucida Sans', Arial, sans-serif;
+  color: black;
+  font-size: 2em;
   border-radius: 0.25em;
   background-color: var(--sidebar-button-color);
   float: right;
@@ -160,5 +162,8 @@ p#successText {
 @media screen and (min-width: 1100px) {
   #mainbar {
     font-size: medium;
+  }
+  #sidebar form button {
+    font-size: 1.2em;
   }
 }
