@@ -201,7 +201,7 @@
       }
 
       // Generate location (in px)
-      location = [randomInt(5,100 - 18*oneEm/onePercentX)*onePercentX, randomInt(5,60)*onePercentY];
+      location = [randomInt(5,100 - 22*oneEm/onePercentX)*onePercentX, randomInt(5,60)*onePercentY];
 
       // First location is always accepted
       if ( locationList.length == 0 ) {
@@ -216,7 +216,7 @@
       }
       for ( let i = 0; i < locationList.length; i++ ) {
         const oldLocation = locationList[i];
-        if ( checkDistance(location, oldLocation, 20*oneEm, 8*oneEm) ) {
+        if ( checkDistance(location, oldLocation, 23*oneEm, 10*oneEm) ) {
           locationSuitable = true;
         } else {
           locationSuitable = false;

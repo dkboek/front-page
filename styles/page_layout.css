@@ -5,7 +5,7 @@ font-size: 16px;
 
 /* Basic variable definitions */
 :root {
-    --nav-height-small: 8em;
+    --nav-height-small: 10em;
     --nav-height-large: 5em;
     --navbar-color: rgb(40,56,13);
     --sidebar-height: 30em;
@@ -32,7 +32,7 @@ body {
 }
 #layout {
     display: grid;
-    grid-template-rows: var(--nav-height-small) [main-start] var(--mainbar-height) [main-end footer-start] var(--sidebar-height) [footer-end];
+    grid-template-rows: var(--nav-height-small) [main-start] minmax(var(--mainbar-height), 1fr) [main-end footer-start] var(--sidebar-height) [footer-end];
     grid-template-columns: [main-start footer-start] 1fr [main-end footer-end];
 }
 nav {
@@ -106,7 +106,7 @@ nav ul {
     font-variant: small-caps;
     list-style-type: none;
     font-weight: bold;
-    font-size: 1.6em;
+    font-size: 1.9em;
     display: flex;
     justify-content: center;
     gap: 0.5em;
@@ -174,6 +174,7 @@ padding: 0.95em;
 #sidebar {
   margin: 0;
   padding: 0;
+  font-size: large;
 }
 #sidebar:first-child {
 margin-top: 10em;
@@ -181,7 +182,7 @@ margin-top: 10em;
 #sidebar h2 {
 font-family: 'Trebuchet MS', 'Lucida Sans', Arial, sans-serif;
 font-variant: small-caps;
-font-size: 2.2em;
+font-size: 2.5em;
 text-align: center;
 margin: 2em;
 }
@@ -199,18 +200,12 @@ line-height: 1.75em;
 text-align: center;
 word-spacing: 0.3em;
 margin: 1em;
-font-size: 1.1em;
+font-size: 1.3em;
 }
 /* Smaller font size for large screens */
 @media screen and (min-width: 1100px) {
-    #sidebar h2 {
-        font-size: 1.8em;
-    }
-    #tagline {
-        font-size: 1em;
-    }
-    #tagline2 {
-        font-size: 0.8em;
+    #sidebar {
+        font-size: medium;
     }
 }
 

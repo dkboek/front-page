@@ -5,6 +5,7 @@
   --sidebar-textarea-color: rgba(255,255,255,0.4);
   --sidebar-button-color: rgba(255,255,255,0.25);
   --sidebar-textarea-placeholder-color: rgba(0,0,0,0.4);
+  --sidebar-proverbs-height: 35em;
 
   --proverb-back-color-light: rgba(255,255,255,0.12);
   --proverb-back-color-middle: rgba(255,255,255,0.05);
@@ -12,6 +13,17 @@
 }
 
 /* Primary block layout - defined in page_layout.css */
+
+/* Exception: increase sidebar size due to the proverb entry form */
+#sidebar {
+  height: var(--sidebar-proverbs-height);
+}
+@media screen and (min-width: 1100px) {
+  #sidebar {
+    height: auto;
+  }
+}
+
 
 /* Currently selected page - add bottom border (and adjust padding) */
 a#proverbs:link {
@@ -33,7 +45,7 @@ a#proverbs:hover {
   position: absolute;
   border-radius: 8px;
   text-align: center;
-  max-width: 15em;
+  max-width: 20em;
   background-image: linear-gradient(180deg, var(--proverb-back-color-light),
                     var(--proverb-back-color-middle) 30%,
                     var(--proverb-back-color-middle) 55%,
@@ -42,8 +54,16 @@ a#proverbs:hover {
 .proverb p {
   padding: 0;
   margin: .4em 1em;
-  font-size: 1em;
+  font-size: 1.3em;
   text-wrap: balance;
+}
+@media screen and (min-width: 1100px) {
+  .proverb {
+    max-width: 15em;
+  }
+  .proverb p {
+    font-size: 1em;
+  }
 }
 .proverb#p1 {
   display: none;
@@ -99,15 +119,18 @@ a#proverbs:hover {
   margin: 0.4em;
   text-align: center;
   margin-bottom: 1em;
+  font-size: 1.5em;
 }
 #sidebar form label {
   margin: 0.4em;
+  font-size: 1.4em;
 }
 #sidebar form textarea {
   margin-left: 5%;
   margin-top: 0.3em;
   width: 90%;
   resize: none;
+  font-size: 1.6em;
   background-color: var(--sidebar-textarea-color);
   color: black;
   border: 2px solid var(--sidebar-textarea-placeholder-color);
