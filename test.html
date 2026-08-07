@@ -10,8 +10,12 @@
   <link rel="stylesheet" type="text/css" href="./styles/page_layout.css">
 
   <style>
+    #tree circle {
+      transition: opacity 2s linear;
+      opacity: 0;
+    }
     #tree:hover path {
-      transition: 2s;
+      transition: d 2s ease-in-out;
       d: path("M 500 1000 Q 500 150 200 150");
     }
 
@@ -81,7 +85,13 @@
 </body>
 
 <script type="module">
-  
+  // Find the circle element within the svg object, to find its coordinates later
+  circleEl = document.querySelectorAll('#tree circle');
+  pathEl = document.querySelectorAll('#tree path');
+
+  circleEl.styles.opacity = 1;
+
+
 </script>
 
 
