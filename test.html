@@ -72,8 +72,8 @@
   </svg>
 
   <svg height="1000", width="1000" id="tree">
-    <circle cx="200" cy="150" r="40" stroke="green" stroke-width="4" fill="yellow" />
-    <path d="M 500 1000 Q 500 800 500 600" stroke="green" stroke-width="100">
+    <circle id="testCircle" cx="200" cy="150" r="40" stroke="green" stroke-width="4" fill="yellow" />
+    <path id="testPath" d="M 500 1000 Q 500 800 500 600" stroke="green" stroke-width="100">
       <animate 
         />
     </path>
@@ -86,10 +86,13 @@
 
 <script type="module">
   // Find the circle element within the svg object, to find its coordinates later
-  circleEl = document.querySelectorAll('#tree circle');
-  pathEl = document.querySelectorAll('#tree path');
-
-  circleEl.styles.opacity = 1;
+  circleEl = document.getElementById('testCircle');
+  pathEl = document.getElementById('testPath');
+  try {
+    circleEl.style.opacity = 1;
+  } catch (err) {
+    console.log(err);
+  }
 
 
 </script>
