@@ -10,13 +10,28 @@
   <link rel="stylesheet" type="text/css" href="./styles/page_layout.css">
 
   <style>
-    #tree circle {
-      transition: opacity 2s linear;
-      opacity: 0;
+    #testBox {
+      position: absolute;
+      top: 750px;
+      left: 170px;
+      height: 50px;
+      width: 50px;
+      background-color: blue;
     }
     #tree:hover path {
       transition: d 2s ease-in-out;
       d: path("M 500 1000 Q 500 150 200 150");
+    }
+    .tree-grow {
+      transition: d 4s ease-in-out;
+      d: path("M 500 1000 Q 500 150 200 150");
+    }
+    .fadeable {
+      opacity: 0;
+    }
+    .fade-in {
+      opacity: 1;
+      transition: opacity 10s linear;
     }
 
   </style>
@@ -71,8 +86,10 @@
 
   </svg>
 
+  <div id="testBox" class="fadeable"> test </div>
+
   <svg height="1000", width="1000" id="tree">
-    <circle id="testCircle" cx="200" cy="150" r="40" stroke="green" stroke-width="4" fill="yellow" />
+    <circle id="testCircle" class="fadeable" cx="200" cy="150" r="40" stroke="green" stroke-width="4" fill="yellow" />
     <path id="testPath" d="M 500 1000 Q 500 800 500 600" stroke="green" stroke-width="100">
       <animate 
         />
@@ -85,14 +102,43 @@
 </body>
 
 <script type="module">
-  // Find the circle element within the svg object, to find its coordinates later
-  circleEl = document.getElementById('testCircle');
-  pathEl = document.getElementById('testPath');
-  try {
-    circleEl.style.opacity = 1;
-  } catch (err) {
-    console.log(err);
-  }
+  // Find the circle and path elements within the svg object,
+  //  to work out appropriate coordinates later
+  console.log("TESTING");
+  const svgElement = document.getElementById('tree');
+  const circleElement = document.getElementById('testCircle');
+  const pathElement = document.getElementById('testPath');
+  const boxElement = document.getElementById('testBox');
+
+
+  // Get coords of box and tree base, to be used for the animation
+  const treeMCoords = [500,1000];
+  const svgCoords = [ svgElement.getBoundingClientRect()["x"], svgElement.getBoundingClientRect()["y"] ];
+  const boxCoords = [boxElement.offsetLeft, boxElement.offsetTop];
+  const boxSize = [boxElement.offsetWidth, boxElement.offsetHeight];
+
+  // Locate the box within the svg coordinates
+  const treeQFinalCoords = [boxCoords[0] - svgCoords[0] + boxSize[0]/2, boxCoords[1] - svgCoords[1] + boxSize[1]/2];
+  const treeQMiddleCoords = [treeMCoords[0], treeQFinalCoords[1]];
+
+  // Define the 'd' string to be used for the tree
+  const pathString = "path('M " + treeMCoords[0] + " " + treeMCoords[1] + 
+      " Q " + treeQMiddleCoords[0] + " " + treeQMiddleCoords[1] + " " +
+      treeQFinalCoords[0] + " " + treeQFinalCoords[1] + "')" ;
+
+
+  // Create a new class, which describes the animation for the tree
+  const styleElement = document.createElementNS("http://www.w3.org/2000/svg", "style");
+  styleElement.textContent = ".tree-animation { transition: d 4s ease-in-out; d: " + pathString + "; }";
+  document.getElementsByTagName('head')[0].appendChild(styleElement);
+
+  boxElement.className += ' fade-in';
+
+  circleElement.setAttribute("class","fadeable fade-in");
+
+  pathElement.setAttribute('class', 'tree-animation');
+  
+
 
 
 </script>
