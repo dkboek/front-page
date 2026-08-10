@@ -90,10 +90,8 @@
 
   <svg height="1000", width="1000" id="tree">
     <circle id="testCircle" class="fadeable" cx="200" cy="150" r="40" stroke="green" stroke-width="4" fill="yellow" />
-    <path id="testPath" d="M 500 1000 Q 500 800 500 600" stroke="green" stroke-width="100">
-      <animate 
-        />
-    </path>
+    <!-- <path id="testPath" d="M 500 1000 Q 500 800 500 600" stroke="green" stroke-width="100" /> -->
+    <path id="testPath" d="M 450 1000 Q 450 800 500 600 Q 550 800 550 1000 Z" stroke="green" stroke-width="2" fill="green" />
   </svg>
 
 </div>
@@ -112,19 +110,24 @@
 
 
   // Get coords of box and tree base, to be used for the animation
-  const treeMCoords = [500,1000];
+  const treeMCoords = [450,1000];
   const svgCoords = [ svgElement.getBoundingClientRect()["x"], svgElement.getBoundingClientRect()["y"] ];
   const boxCoords = [boxElement.offsetLeft, boxElement.offsetTop];
   const boxSize = [boxElement.offsetWidth, boxElement.offsetHeight];
 
   // Locate the box within the svg coordinates
-  const treeQFinalCoords = [boxCoords[0] - svgCoords[0] + boxSize[0]/2, boxCoords[1] - svgCoords[1] + boxSize[1]/2];
-  const treeQMiddleCoords = [treeMCoords[0], treeQFinalCoords[1]];
+  const treeQ1FinalCoords = [boxCoords[0] - svgCoords[0] + boxSize[0]/2, boxCoords[1] - svgCoords[1] + boxSize[1]/2];
+  const treeQ1MiddleCoords = [treeMCoords[0], treeQ1FinalCoords[1] + 100]; //TODO: adjust hardcode
+
+  const treeQ2FinalCoords = [550,1000];
+  const treeQ2MiddleCoords = [treeQ2FinalCoords[0], treeQ1FinalCoords[1] + 50];
 
   // Define the 'd' string to be used for the tree
   const pathString = "path('M " + treeMCoords[0] + " " + treeMCoords[1] + 
-      " Q " + treeQMiddleCoords[0] + " " + treeQMiddleCoords[1] + " " +
-      treeQFinalCoords[0] + " " + treeQFinalCoords[1] + "')" ;
+      " Q " + treeQ1MiddleCoords[0] + " " + treeQ1MiddleCoords[1] + " " +
+      treeQ1FinalCoords[0] + " " + treeQ1FinalCoords[1] + 
+      " Q " + treeQ2MiddleCoords[0] + " " + treeQ2MiddleCoords[1] + " " +
+      treeQ2FinalCoords[0] + " " + treeQ2FinalCoords[1] + "Z')" ;
 
 
   // Create a new class, which describes the animation for the tree
