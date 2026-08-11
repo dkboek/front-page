@@ -137,8 +137,8 @@
   const branchQ2FinalCoords = [treeFinalCoords[0], trunkBaseHeight];
 
   // Define the curve of the branch
-  const branchQOffset = clamp( 300 - Math.abs(boxCoords[0]-treeCentreX),
-                         50, 300)
+  const branchQOffset = clamp( 3*svgSize[1]/10 - Math.abs(boxCoords[0]-treeCentreX),
+                         svgSize[1]/20, 3*svgSize[1]/10)
   
   const branchQ1MiddleCoords = [treeMCoords[0], branchQ1FinalCoords[1] + branchQOffset];
   const branchQ2MiddleCoords = [treeFinalCoords[0], branchQ1FinalCoords[1] + branchQOffset];
@@ -163,8 +163,8 @@
 
 
   // We also define an intermediary 'trunk' stage, to improve the 'growing' look of the tree
-  const transitionTrunkHeight = 100;
-  const spikeHeight = 300;
+  const transitionTrunkHeight = svgSize[1]/10;
+  const spikeHeight = 3*svgSize[1]/10;
   const trunkL1Coords = [branchL1Coords[0], branchL1Coords[1] + transitionTrunkHeight];
   const trunkL2Coords = branchL2Coords;
 

@@ -7,9 +7,10 @@
   --sidebar-textarea-placeholder-color: rgba(0,0,0,0.4);
   --sidebar-proverbs-height: 35em;
 
-  --proverb-back-color-light: rgba(255,255,255,0.12);
-  --proverb-back-color-middle: rgba(255,255,255,0.05);
-  --proverb-back-color-dark: rgba(0,0,0,0.15);
+  --proverb-base-color: hsl(82deg,62%,14%);
+  --proverb-back-color-light: hsl(82deg,62%,20%);
+  --proverb-back-color-middle: hsl(82deg,62%,14%);
+  --proverb-back-color-dark: hsl(82deg,62%,10%);
 }
 
 /* Primary block layout - defined in page_layout.css */
@@ -99,6 +100,19 @@ a#proverbs:hover {
   display: none;
   top: 50%;
   left: 40%;
+}
+
+/* Styles for fade-in animations */
+#treeSVG {
+  width: 100%;
+  height: 100%;
+}
+.fadeable {
+  opacity: 0;
+}
+.fade-in {
+  opacity: 1;
+  transition: opacity 10s linear;
 }
 
 

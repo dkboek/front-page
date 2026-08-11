@@ -58,6 +58,10 @@
 <div class="proverb" id="p4">
   <p>One's high is another's low</p>
 </div>
+
+<svg id="treeSVG">
+</svg>
+
 </div>
 
 </div>
@@ -184,8 +188,6 @@
   }
 
 
-  console.log("mainbar width: " + document.querySelectorAll('div#mainbar')[0].offsetWidth);
-
   function findSuitableLocation( locationList ) {
     // This function picks a random location, repeatedly, until it
     //  doesn't conflict with the locations in locationList
@@ -230,6 +232,127 @@
   }
 
 
+  const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
+
+  // Find the background SVG element, into which we load the tree branches
+  const backSVG = document.getElementById('treeSVG');
+  const svgCoords = [ backSVG.getBoundingClientRect().left + window.scrollX,
+                       backSVG.getBoundingClientRect().top + window.scrollY ];
+  const svgSize = [ backSVG.getBoundingClientRect().width,
+                      backSVG.getBoundingClientRect().height ];
+
+  function loadBranch(proverbElement, id) {
+    // This function loads a tree branch object in the background svg,
+    //  and sets its destination to `location`.
+    // Note that `id` is used to assign a unique animation class to each proverb.
+
+    // We define some variables, and load in the base of the tree/branch
+    const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
+
+    const trunkWidth = 100
+    const tenthSize = [svgSize[0]/10, svgSize[1]/10];
+    const pathStart = [svgSize[0]/2 - trunkWidth/2, svgSize[1]];
+    const pathEnd = [svgSize[0]/2 + trunkWidth/2, svgSize[1]];
+    const baseTreeString = "M " + pathStart[0] + " " + pathStart[1] +
+            " L " + pathStart[0] + " " + (pathStart[1] - tenthSize[1]) +
+            " Q " + pathStart[0] + " " + (pathStart[1] - 2*tenthSize[1]) +
+              " " + svgSize[0]/2 + " " + (pathStart[1] - 4*tenthSize[1]) +
+            " Q " + pathEnd[0] + " " + (pathStart[1] - 2*tenthSize[1]) +
+              " " + pathEnd[0] + " " + (pathStart[1] - tenthSize[1]) +
+            " L " + pathEnd[0] + " " + pathEnd[1] + " Z";
+    
+    // Define branch attributes and add to the SVG tag
+    pathElement.setAttribute("d", baseTreeString);
+    pathElement.setAttribute("stroke", "rgb(102,43,8)");
+    pathElement.setAttribute("strokeWidth", "2");
+    pathElement.setAttribute("fill", "rgb(102,43,8)");
+
+    backSVG.appendChild(pathElement);
+
+    // Retrieve details of the proverb element, to use in animating
+    const proverbCoords = [proverbElement.offsetLeft - svgCoords[0], proverbElement.offsetTop];
+    const proverbSize = [proverbElement.offsetWidth, proverbElement.offsetHeight];
+    
+    
+    const trunkBaseHeight = proverbCoords[1] + 
+                        (svgSize[1] - proverbCoords[1])
+                          *clamp(svgSize[0]/(8*Math.abs(proverbCoords[0]-svgSize[0]/2)),1/2,2/3);
+
+    // We choose random animation durations for the two growing phases, in ms
+    const branchAnimDuration = randomInt(3000,5000);
+    const trunkAnimDuration = randomInt(3000,5000);
+
+
+    // Locate the box within the svg coordinates
+    const branchQ1FinalCoords = [proverbCoords[0] + proverbSize[0]/2, proverbCoords[1] + proverbSize[1]/2];
+    const branchQ2FinalCoords = [pathEnd[0], trunkBaseHeight];
+
+
+    // Define the curve of the branch
+    const branchQOffset = clamp( 3*svgSize[1]/10 - Math.abs(proverbCoords[0]-svgSize[0]/2),
+                          svgSize[1]/20, 3*svgSize[1]/10)
+
+    
+    const branchQ1MiddleCoords = [pathStart[0], branchQ1FinalCoords[1] + branchQOffset];
+    const branchQ2MiddleCoords = [pathEnd[0], branchQ1FinalCoords[1] + branchQOffset];
+
+    // Define the linear extent of the trunk
+    const branchL1Coords = [pathStart[0], trunkBaseHeight];
+    const branchL2Coords = [branchQ2FinalCoords[0], pathEnd[1]]
+
+
+    // Define the 'd' string to be used for the tree
+    const branchAnimString = "path('M " + pathStart[0] + " " + pathStart[1] + 
+        " L " + branchL1Coords[0] + " " + branchL1Coords[1] +
+        " Q " + branchQ1MiddleCoords[0] + " " + branchQ1MiddleCoords[1] + " " +
+        branchQ1FinalCoords[0] + " " + branchQ1FinalCoords[1] + 
+        " Q " + branchQ2MiddleCoords[0] + " " + branchQ2MiddleCoords[1] + " " +
+        branchQ2FinalCoords[0] + " " + branchQ2FinalCoords[1] + 
+        " L " + branchL2Coords[0] + " " + branchL2Coords[1] + " Z')" ;
+
+    // Create a new CSS class, which describes the animation for the branch
+    const branchAnimStyle = document.createElementNS("http://www.w3.org/2000/svg", "style");
+    branchAnimStyle.textContent = ".tree-animation-branch-" + id + " { transition: d " + branchAnimDuration/1000 + "s ease-out; d: " + branchAnimString + "; }";
+    document.getElementsByTagName('head')[0].appendChild(branchAnimStyle);
+
+
+    // We also define an intermediary 'trunk' stage, to improve the 'growing' look of the tree
+    const transitionTrunkHeight = svgSize[1]/10;
+    const spikeHeight = 3*svgSize[1]/10;
+    const trunkL1Coords = [branchL1Coords[0], branchL1Coords[1] + transitionTrunkHeight];
+    const trunkL2Coords = branchL2Coords;
+
+    const trunkQ1MiddleCoords = [pathStart[0], branchL1Coords[1]];
+    const trunkQ1FinalCoords = [clamp(proverbCoords[0] + proverbSize[0]/2,pathStart[0],pathEnd[0]), branchL1Coords[1] - spikeHeight];
+
+    const trunkQ2MiddleCoords = [pathEnd[0], branchL1Coords[1]];
+    const trunkQ2FinalCoords = [pathEnd[0], branchL1Coords[1] + transitionTrunkHeight];
+
+    const trunkAnimString = "path('M " + pathStart[0] + " " + pathStart[1] +
+        " L " + trunkL1Coords[0] + " " + trunkL1Coords[1] +
+        " Q " + trunkQ1MiddleCoords[0] + " " + trunkQ1MiddleCoords[1] + " " +
+        trunkQ1FinalCoords[0] + " " + trunkQ1FinalCoords[1] +
+        " Q " + trunkQ2MiddleCoords[0] + " " + trunkQ2MiddleCoords[1] + " " +
+        trunkQ2FinalCoords[0] + " " + trunkQ2FinalCoords[1] +
+        " L " + trunkL2Coords[0] + " " + trunkL2Coords[1] + " Z')" ;
+
+    const trunkAnimStyle = document.createElementNS("http://www.w3.org/2000/svg", "style");
+    trunkAnimStyle.textContent = ".tree-animation-trunk-" + id + " { transition: d " + trunkAnimDuration/1000 + "s ease-in; d: " + trunkAnimString + "; }";
+    document.getElementsByTagName('head')[0].appendChild(trunkAnimStyle);
+
+
+    // Perform the trunk animation, then the branch animation after a delay
+    pathElement.setAttribute('class', 'tree-animation-trunk-' + id);
+    setTimeout(() => {
+      pathElement.setAttribute('class', 'tree-animation-branch-' + id);
+      proverbElement.className += ' fade-in';
+    },  trunkAnimDuration);
+
+    // console.log("branch: " + branchAnimStyle.textContent);
+    // console.log("trunk: " + trunkAnimStyle.textContent);
+  }
+
+
   function arrangeProverbs( proverbList ) {
 
     // Establish mainbar object
@@ -241,9 +364,11 @@
 
     for ( let i = 0; i < proverbList.length; i++ ) {
       const proverbText = proverbList[i];
-
+      
+      // We give our new proverb both the proverb class (for styling)
+      //  and the fadeable class (for animation)
       const newProverb = document.createElement("div");
-      newProverb.setAttribute("class", "proverb");
+      newProverb.setAttribute("class", "proverb fadeable");
 
       // Handling multi-line proverbs
       const paragraphList = proverbText.split('\n');
@@ -267,6 +392,9 @@
 
       mainbar.appendChild(newProverb);
 
+      // Now we load the branch and activate the fade-in animation for the proverb
+      loadBranch(newProverb, (locationList.length));
+
     }
   }
 
@@ -274,7 +402,8 @@
 
   // On initial load, we select up to 7 of the approved proverbs
   const proverbList = await selectProverbs(7);
-  // Then, we arrange them appropriately across the screen
+  // Then, we arrange them appropriately across the screen,
+  //  and create a tree branch per proverb
   arrangeProverbs(proverbList);
 
 </script>
