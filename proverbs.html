@@ -73,6 +73,36 @@
   // Establishing a connection with the database
   const { createClient } = supabase;
 
+  // Load in a basic tree base, to sit while the proverbs are loaded in
+  const treeBase = document.createElementNS("http://www.w3.org/2000/svg", "path");
+
+  // Find the background SVG element, into which we load the tree branches
+  const backSVG = document.getElementById('treeSVG');
+  const svgCoords = [ backSVG.getBoundingClientRect().left + window.scrollX,
+                       backSVG.getBoundingClientRect().top + window.scrollY ];
+  const svgSize = [ backSVG.getBoundingClientRect().width,
+                      backSVG.getBoundingClientRect().height ];
+
+  const trunkWidth = 100
+  const tenthSize = [svgSize[0]/10, svgSize[1]/10];
+  const pathStart = [svgSize[0]/2 - trunkWidth/2, svgSize[1]];
+  const pathEnd = [svgSize[0]/2 + trunkWidth/2, svgSize[1]];
+  const baseTreeString = "M " + pathStart[0] + " " + pathStart[1] +
+          " L " + pathStart[0] + " " + (pathStart[1] - tenthSize[1]) +
+          " Q " + pathStart[0] + " " + (pathStart[1] - 2*tenthSize[1]) +
+            " " + svgSize[0]/2 + " " + (pathStart[1] - 4*tenthSize[1]) +
+          " Q " + pathEnd[0] + " " + (pathStart[1] - 2*tenthSize[1]) +
+            " " + pathEnd[0] + " " + (pathStart[1] - tenthSize[1]) +
+          " L " + pathEnd[0] + " " + pathEnd[1] + " Z";
+  
+  // Define branch attributes and add to the SVG tag
+  treeBase.setAttribute("d", baseTreeString);
+  treeBase.setAttribute("stroke", "rgb(102,43,8)");
+  treeBase.setAttribute("strokeWidth", "2");
+  treeBase.setAttribute("fill", "rgb(102,43,8)");
+
+  backSVG.appendChild(treeBase);
+
   let _supabase;
   try {
     const supabaseUrl = 'https://gcjbnacgmqfbdjojjcpk.supabase.co';
@@ -233,13 +263,6 @@
 
 
   const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
-
-  // Find the background SVG element, into which we load the tree branches
-  const backSVG = document.getElementById('treeSVG');
-  const svgCoords = [ backSVG.getBoundingClientRect().left + window.scrollX,
-                       backSVG.getBoundingClientRect().top + window.scrollY ];
-  const svgSize = [ backSVG.getBoundingClientRect().width,
-                      backSVG.getBoundingClientRect().height ];
 
   function loadBranch(proverbElement, id) {
     // This function loads a tree branch object in the background svg,
