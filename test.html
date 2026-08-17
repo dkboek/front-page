@@ -103,6 +103,7 @@
   // Find the circle and path elements within the svg object,
   //  to work out appropriate coordinates later
   console.log("TESTING");
+
   const svgElement = document.getElementById('tree');
   const circleElement = document.getElementById('testCircle');
   const pathElement = document.getElementById('testPath');
@@ -111,6 +112,8 @@
   const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
 
   const randomInt = (low, high)  => low + Math.floor(Math.random()*(high-low));
+
+  try {
 
   // Get coords of box and tree base (relative to svg coordinates), to be used for the animation
   const treeMCoords = [450,1000];
@@ -195,6 +198,11 @@
   setTimeout(() => {
     pathElement.setAttribute('class', 'tree-animation-branch');
   },  trunkAnimDuration);
+
+  } catch (err) {
+    // Debugging for devices without a dev console (i.e. mobile safari)
+    boxElement.innerText = err;
+  }
   
 </script>
 
