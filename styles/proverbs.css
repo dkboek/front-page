@@ -112,8 +112,6 @@ a#proverbs:hover {
 }
 .fade-in {
   opacity: 1;
-  -webkit-transition: opacity 10s linear;
-  -ms-transition: opacity 10s linear;
   transition: opacity 10s linear;
 }
 
@@ -167,9 +165,9 @@ textarea::placeholder {
 p#successText {
   float: right;
   padding-right: 3%;
-  -webkit-transition: opacity 0.1s ease-in-out;
-  -ms-transition: opacity 0.1s ease-in-out;
-  transition: opacity 0.1s ease-in-out;
+  transition-property: opacity;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-in-out;
   opacity: 0;
 }
 
