@@ -195,6 +195,7 @@
 
   // Perform the trunk animation, then the branch animation after a delay
   pathElement.className.baseVal = 'tree-animation-trunk';
+  const triggerRepaint = pathElement.offsetHeight;
   // pathElement.setAttribute('class', 'tree-animation-trunk');
   setTimeout(() => {
     pathElement.className.baseVal = 'tree-animation-branch';
