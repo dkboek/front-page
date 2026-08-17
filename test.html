@@ -194,9 +194,11 @@
   circleElement.setAttribute("class","fadeable fade-in");
 
   // Perform the trunk animation, then the branch animation after a delay
-  pathElement.setAttribute('class', 'tree-animation-trunk');
+  pathElement.classList.add('tree-animation-trunk');
+  // pathElement.setAttribute('class', 'tree-animation-trunk');
   setTimeout(() => {
-    pathElement.setAttribute('class', 'tree-animation-branch');
+    pathElement.classList.add('tree-animation-branch');
+    // pathElement.setAttribute('class', 'tree-animation-branch');
   },  trunkAnimDuration);
 
   } catch (err) {
