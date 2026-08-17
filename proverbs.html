@@ -335,7 +335,11 @@
 
     // Create a new CSS class, which describes the animation for the branch
     const branchAnimStyle = document.createElementNS("http://www.w3.org/2000/svg", "style");
-    branchAnimStyle.textContent = ".tree-animation-branch-" + id + " { transition: d " + branchAnimDuration/1000 + "s ease-out; d: " + branchAnimString + "; }";
+    let transitionText = "d " + branchAnimDuration/1000 + "s ease-out; d: " + branchAnimString;
+    branchAnimStyle.textContent = ".tree-animation-branch-" + id + 
+      " { -webkit-transition: " + transitionText + "; " +
+      "-ms-transition: " + transitionText + "; " +
+      "transition: " + transitionText + "; }";
     document.getElementsByTagName('head')[0].appendChild(branchAnimStyle);
 
 
@@ -360,7 +364,11 @@
         " L " + trunkL2Coords[0] + " " + trunkL2Coords[1] + " Z')" ;
 
     const trunkAnimStyle = document.createElementNS("http://www.w3.org/2000/svg", "style");
-    trunkAnimStyle.textContent = ".tree-animation-trunk-" + id + " { transition: d " + trunkAnimDuration/1000 + "s ease-in; d: " + trunkAnimString + "; }";
+    transitionText = "d " + trunkAnimDuration/1000 + "s ease-in; d: " + trunkAnimString;
+    trunkAnimStyle.textContent = ".tree-animation-trunk-" + id + 
+      " { -webkit-transition: " + transitionText + "; " +
+      "-ms-transition: " + transitionText + "; " +
+      "transition: " + transitionText + "; }";
     document.getElementsByTagName('head')[0].appendChild(trunkAnimStyle);
 
 
