@@ -34,6 +34,9 @@
       transition: opacity 10s linear;
     }
 
+    @supports (transition: d) {
+      #testBox {background-color: white;}
+    }
   </style>
 </head>
 
@@ -195,11 +198,11 @@
 
   // Perform the trunk animation, then the branch animation after a delay
   pathElement.className.baseVal = 'tree-animation-trunk';
-  let triggerRepaint = pathElement.getBBox();
+  // let triggerRepaint = pathElement.getBBox();
   // pathElement.setAttribute('class', 'tree-animation-trunk');
   setTimeout(() => {
     pathElement.className.baseVal = 'tree-animation-branch';
-    triggerRepaint = pathElement.getBBox();
+    // triggerRepaint = pathElement.getBBox();
     // pathElement.setAttribute('class', 'tree-animation-branch');
   },  trunkAnimDuration);
 
