@@ -90,7 +90,7 @@
 
   <svg height="1000" width="1000" id="tree">
     <circle id="testCircle" class="fadeable" cx="200" cy="150" r="40" stroke="green" stroke-width="4" fill="yellow" />
-    <!-- <path id="testPath" d="M 500 1000 Q 500 800 500 600" stroke="green" stroke-width="100" /> -->
+    
     <path id="testPath" d="M 450 1000 L 450 900 Q 450 800 500 600 Q 550 800 550 900 L 550 1000 Z" stroke="green" stroke-width="2" fill="green" />
   </svg>
 
@@ -195,10 +195,11 @@
 
   // Perform the trunk animation, then the branch animation after a delay
   pathElement.className.baseVal = 'tree-animation-trunk';
-  const triggerRepaint = pathElement.getBBox();
+  let triggerRepaint = pathElement.getBBox();
   // pathElement.setAttribute('class', 'tree-animation-trunk');
   setTimeout(() => {
     pathElement.className.baseVal = 'tree-animation-branch';
+    triggerRepaint = pathElement.getBBox();
     // pathElement.setAttribute('class', 'tree-animation-branch');
   },  trunkAnimDuration);
 
