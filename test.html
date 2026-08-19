@@ -33,6 +33,12 @@
       opacity: 1;
       transition: opacity 10s linear;
     }
+    .green-fill {
+      fill: green;
+    }
+    .blue-fill {
+      fill: blue;
+    }
 
     @supports (transition: d) {
       #testBox {background-color: white;}
@@ -197,11 +203,13 @@
   circleElement.setAttribute("class","fadeable fade-in");
 
   // Perform the trunk animation, then the branch animation after a delay
-  pathElement.className.baseVal += ' tree-animation-trunk';
+  pathElement.className.baseVal = "blue-fill";
+  // pathElement.className.baseVal = 'tree-animation-trunk';
   // let triggerRepaint = pathElement.getBBox();
   // pathElement.setAttribute('class', 'tree-animation-trunk');
   setTimeout(() => {
-    pathElement.className.baseVal += ' tree-animation-branch';
+    pathElement.className.baseVal = 'green-fill';
+    // pathElement.className.baseVal = 'tree-animation-branch';
     // triggerRepaint = pathElement.getBBox();
     // pathElement.setAttribute('class', 'tree-animation-branch');
   },  trunkAnimDuration);
