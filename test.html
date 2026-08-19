@@ -207,14 +207,16 @@
   circleElement.setAttribute("class","fadeable fade-in");
 
   // Perform the trunk animation, then the branch animation after a delay
-  pathElement.className.baseVal = "blue-fill";
+  // pathElement.className.baseVal = "blue-fill";
   // pathElement.className.baseVal = 'tree-animation-trunk';
   // let triggerRepaint = pathElement.getBBox();
+  pathElement.setAttribute('class', 'blue-fill');
   // pathElement.setAttribute('class', 'tree-animation-trunk');
   setTimeout(() => {
-    pathElement.className.baseVal = 'green-fill';
+    // pathElement.className.baseVal = 'green-fill';
     // pathElement.className.baseVal = 'tree-animation-branch';
     // triggerRepaint = pathElement.getBBox();
+    pathElement.setAttribute('class', 'green-fill');
     // pathElement.setAttribute('class', 'tree-animation-branch');
   },  trunkAnimDuration);
 
