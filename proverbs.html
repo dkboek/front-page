@@ -325,13 +325,14 @@
 
 
     // Define the 'd' string to be used for the tree
-    const branchAnimString = "path('M " + pathStart[0] + " " + pathStart[1] + 
+    const branchString = "M " + pathStart[0] + " " + pathStart[1] + 
         " L " + branchL1Coords[0] + " " + branchL1Coords[1] +
         " Q " + branchQ1MiddleCoords[0] + " " + branchQ1MiddleCoords[1] + " " +
         branchQ1FinalCoords[0] + " " + branchQ1FinalCoords[1] + 
         " Q " + branchQ2MiddleCoords[0] + " " + branchQ2MiddleCoords[1] + " " +
         branchQ2FinalCoords[0] + " " + branchQ2FinalCoords[1] + 
-        " L " + branchL2Coords[0] + " " + branchL2Coords[1] + " Z')" ;
+        " L " + branchL2Coords[0] + " " + branchL2Coords[1] + " Z";
+    const branchAnimString = "path('" + branchString + "')";
 
     // Create a new CSS class, which describes the animation for the branch
     const branchAnimStyle = document.createElementNS("http://www.w3.org/2000/svg", "style");
@@ -363,13 +364,19 @@
     trunkAnimStyle.textContent = ".tree-animation-trunk-" + id + " { transition: d " + trunkAnimDuration/1000 + "s ease-in; d: " + trunkAnimString + "; }";
     document.getElementsByTagName('head')[0].appendChild(trunkAnimStyle);
 
-
-    // Perform the trunk animation, then the branch animation after a delay
-    pathElement.setAttribute('class', 'tree-animation-trunk-' + id);
-    setTimeout(() => {
-      pathElement.setAttribute('class', 'tree-animation-branch-' + id);
-      proverbElement.className += ' fade-in';
-    },  trunkAnimDuration);
+    // Check that the browser supports CSS SVG path animations.
+    if (CSS.supports("d", "path('M0 0')")) {
+      // Perform the trunk animation, then the branch animation after a delay
+      pathElement.setAttribute('class', 'tree-animation-trunk-' + id);
+      setTimeout(() => {
+        pathElement.setAttribute('class', 'tree-animation-branch-' + id);
+        proverbElement.className += ' fade-in';
+      },  trunkAnimDuration);
+    } else {
+      // Otherwise, just set the branch's path to the final destination
+      pathElement.setAttribute('class', 'fadeable fade-in');
+      pathElement.setAttribute('d', branchString);
+    }
 
     // console.log("branch: " + branchAnimStyle.textContent);
     // console.log("trunk: " + trunkAnimStyle.textContent);
