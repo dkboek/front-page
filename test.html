@@ -94,7 +94,7 @@
   <svg height="1000" width="1000" id="tree">
     <circle id="testCircle" class="fadeable" cx="200" cy="150" r="40" stroke="green" stroke-width="4" fill="yellow" />
     
-    <path id="testPath" class="fadeable" d="M 450 1000 L 450 900 Q 450 800 500 600 Q 550 800 550 900 L 550 1000 Z" stroke="green" stroke-width="2" fill="green" />
+    <path id="testPath" d="M 450 1000 L 450 900 Q 450 800 500 600 Q 550 800 550 900 L 550 1000 Z" stroke="green" stroke-width="2" fill="green" />
   </svg>
 
 </div>
@@ -116,103 +116,101 @@
 
   const randomInt = (low, high)  => low + Math.floor(Math.random()*(high-low));
 
-  pathElement.className.baseVal = 'fadeable fade-in';
+  try {
 
-  // try {
-
-  // // Get coords of box and tree base (relative to svg coordinates), to be used for the animation
-  // const treeMCoords = [450,1000];
-  // const treeFinalCoords = [550,1000];
-  // const treeCentreX = treeMCoords[0]/2 + treeFinalCoords[0]/2;
-  // const svgCoords = [ svgElement.getBoundingClientRect().left + window.scrollX,
-  //                      svgElement.getBoundingClientRect().top + window.scrollY ];
-  // const svgSize = [ svgElement.getBoundingClientRect().width,
-  //                     svgElement.getBoundingClientRect().height ];
-  // const boxCoords = [boxElement.offsetLeft - svgCoords[0], boxElement.offsetTop - svgCoords[1]];
-  // const boxSize = [boxElement.offsetWidth, boxElement.offsetHeight];
+  // Get coords of box and tree base (relative to svg coordinates), to be used for the animation
+  const treeMCoords = [450,1000];
+  const treeFinalCoords = [550,1000];
+  const treeCentreX = treeMCoords[0]/2 + treeFinalCoords[0]/2;
+  const svgCoords = [ svgElement.getBoundingClientRect().left + window.scrollX,
+                       svgElement.getBoundingClientRect().top + window.scrollY ];
+  const svgSize = [ svgElement.getBoundingClientRect().width,
+                      svgElement.getBoundingClientRect().height ];
+  const boxCoords = [boxElement.offsetLeft - svgCoords[0], boxElement.offsetTop - svgCoords[1]];
+  const boxSize = [boxElement.offsetWidth, boxElement.offsetHeight];
   
-  // const trunkBaseHeight = boxCoords[1] + 
-  //                     (svgSize[1] - boxCoords[1])
-  //                       *clamp(svgSize[0]/(8*Math.abs(boxCoords[0]-treeCentreX)),1/2,2/3);
+  const trunkBaseHeight = boxCoords[1] + 
+                      (svgSize[1] - boxCoords[1])
+                        *clamp(svgSize[0]/(8*Math.abs(boxCoords[0]-treeCentreX)),1/2,2/3);
 
-  // // We choose random animation durations for the two growing phases, in ms
-  // const branchAnimDuration = randomInt(3000,5000);
-  // const trunkAnimDuration = randomInt(3000,5000);
+  // We choose random animation durations for the two growing phases, in ms
+  const branchAnimDuration = randomInt(3000,5000);
+  const trunkAnimDuration = randomInt(3000,5000);
 
 
-  // // Locate the box within the svg coordinates
-  // const branchQ1FinalCoords = [boxCoords[0] + boxSize[0]/2, boxCoords[1] + boxSize[1]/2];
-  // const branchQ2FinalCoords = [treeFinalCoords[0], trunkBaseHeight];
+  // Locate the box within the svg coordinates
+  const branchQ1FinalCoords = [boxCoords[0] + boxSize[0]/2, boxCoords[1] + boxSize[1]/2];
+  const branchQ2FinalCoords = [treeFinalCoords[0], trunkBaseHeight];
 
-  // // Define the curve of the branch
-  // const branchQOffset = clamp( 3*svgSize[1]/10 - Math.abs(boxCoords[0]-treeCentreX),
-  //                        svgSize[1]/20, 3*svgSize[1]/10)
+  // Define the curve of the branch
+  const branchQOffset = clamp( 3*svgSize[1]/10 - Math.abs(boxCoords[0]-treeCentreX),
+                         svgSize[1]/20, 3*svgSize[1]/10)
   
-  // const branchQ1MiddleCoords = [treeMCoords[0], branchQ1FinalCoords[1] + branchQOffset];
-  // const branchQ2MiddleCoords = [treeFinalCoords[0], branchQ1FinalCoords[1] + branchQOffset];
+  const branchQ1MiddleCoords = [treeMCoords[0], branchQ1FinalCoords[1] + branchQOffset];
+  const branchQ2MiddleCoords = [treeFinalCoords[0], branchQ1FinalCoords[1] + branchQOffset];
 
-  // // Define the linear extent of the trunk
-  // const branchL1Coords = [treeMCoords[0], trunkBaseHeight];
-  // const branchL2Coords = [branchQ2FinalCoords[0], treeFinalCoords[1]]
+  // Define the linear extent of the trunk
+  const branchL1Coords = [treeMCoords[0], trunkBaseHeight];
+  const branchL2Coords = [branchQ2FinalCoords[0], treeFinalCoords[1]]
 
-  // // Define the 'd' string to be used for the tree
-  // const branchAnimString = "path('M " + Math.floor(treeMCoords[0]) + " " + Math.floor(treeMCoords[1]) + 
-  //     " L " + Math.floor(branchL1Coords[0]) + " " + Math.floor(branchL1Coords[1]) +
-  //     " Q " + Math.floor(branchQ1MiddleCoords[0]) + " " + Math.floor(branchQ1MiddleCoords[1]) + " " +
-  //     Math.floor(branchQ1FinalCoords[0]) + " " + Math.floor(branchQ1FinalCoords[1]) + 
-  //     " Q " + Math.floor(branchQ2MiddleCoords[0]) + " " + Math.floor(branchQ2MiddleCoords[1]) + " " +
-  //     Math.floor(branchQ2FinalCoords[0]) + " " + Math.floor(branchQ2FinalCoords[1]) + 
-  //     " L " + Math.floor(branchL2Coords[0]) + " " + Math.floor(branchL2Coords[1]) + " Z')";
+  // Define the 'd' string to be used for the tree
+  const branchAnimString = "path('M " + Math.floor(treeMCoords[0]) + " " + Math.floor(treeMCoords[1]) + 
+      " L " + Math.floor(branchL1Coords[0]) + " " + Math.floor(branchL1Coords[1]) +
+      " Q " + Math.floor(branchQ1MiddleCoords[0]) + " " + Math.floor(branchQ1MiddleCoords[1]) + " " +
+      Math.floor(branchQ1FinalCoords[0]) + " " + Math.floor(branchQ1FinalCoords[1]) + 
+      " Q " + Math.floor(branchQ2MiddleCoords[0]) + " " + Math.floor(branchQ2MiddleCoords[1]) + " " +
+      Math.floor(branchQ2FinalCoords[0]) + " " + Math.floor(branchQ2FinalCoords[1]) + 
+      " L " + Math.floor(branchL2Coords[0]) + " " + Math.floor(branchL2Coords[1]) + " Z')";
 
-  // // Create a new CSS class, which describes the animation for the branch
-  // const branchAnimStyle = document.createElementNS("http://www.w3.org/2000/svg", "style");
-  // branchAnimStyle.textContent = ".tree-animation-branch { transition: d " + branchAnimDuration/1000 + "s ease-out; d: " + branchAnimString + "; }";
-  // document.getElementsByTagName('head')[0].appendChild(branchAnimStyle);
+  // Create a new CSS class, which describes the animation for the branch
+  const branchAnimStyle = document.createElementNS("http://www.w3.org/2000/svg", "style");
+  branchAnimStyle.textContent = ".tree-animation-branch { transition: d " + branchAnimDuration/1000 + "s ease-out; d: " + branchAnimString + "; }";
+  document.getElementsByTagName('head')[0].appendChild(branchAnimStyle);
 
 
-  // // We also define an intermediary 'trunk' stage, to improve the 'growing' look of the tree
-  // const transitionTrunkHeight = svgSize[1]/10;
-  // const spikeHeight = 3*svgSize[1]/10;
-  // const trunkL1Coords = [branchL1Coords[0], branchL1Coords[1] + transitionTrunkHeight];
-  // const trunkL2Coords = branchL2Coords;
+  // We also define an intermediary 'trunk' stage, to improve the 'growing' look of the tree
+  const transitionTrunkHeight = svgSize[1]/10;
+  const spikeHeight = 3*svgSize[1]/10;
+  const trunkL1Coords = [branchL1Coords[0], branchL1Coords[1] + transitionTrunkHeight];
+  const trunkL2Coords = branchL2Coords;
 
-  // const trunkQ1MiddleCoords = [treeMCoords[0], branchL1Coords[1]];
-  // const trunkQ1FinalCoords = [clamp(boxCoords[0] + boxSize[0]/2,treeMCoords[0],treeFinalCoords[0]), branchL1Coords[1] - spikeHeight];
+  const trunkQ1MiddleCoords = [treeMCoords[0], branchL1Coords[1]];
+  const trunkQ1FinalCoords = [clamp(boxCoords[0] + boxSize[0]/2,treeMCoords[0],treeFinalCoords[0]), branchL1Coords[1] - spikeHeight];
 
-  // const trunkQ2MiddleCoords = [treeFinalCoords[0], branchL1Coords[1]];
-  // const trunkQ2FinalCoords = [treeFinalCoords[0], branchL1Coords[1] + transitionTrunkHeight];
+  const trunkQ2MiddleCoords = [treeFinalCoords[0], branchL1Coords[1]];
+  const trunkQ2FinalCoords = [treeFinalCoords[0], branchL1Coords[1] + transitionTrunkHeight];
 
-  // const trunkAnimString = "path('M " + Math.floor(treeMCoords[0]) + " " + Math.floor(treeMCoords[1]) +
-  //     " L " + Math.floor(trunkL1Coords[0]) + " " + Math.floor(trunkL1Coords[1]) +
-  //     " Q " + Math.floor(trunkQ1MiddleCoords[0]) + " " + Math.floor(trunkQ1MiddleCoords[1]) + " " +
-  //     Math.floor(trunkQ1FinalCoords[0]) + " " + Math.floor(trunkQ1FinalCoords[1]) +
-  //     " Q " + Math.floor(trunkQ2MiddleCoords[0]) + " " + Math.floor(trunkQ2MiddleCoords[1]) + " " +
-  //     Math.floor(trunkQ2FinalCoords[0]) + " " + Math.floor(trunkQ2FinalCoords[1]) +
-  //     " L " + Math.floor(trunkL2Coords[0]) + " " + Math.floor(trunkL2Coords[1]) + " Z')";
+  const trunkAnimString = "path('M " + Math.floor(treeMCoords[0]) + " " + Math.floor(treeMCoords[1]) +
+      " L " + Math.floor(trunkL1Coords[0]) + " " + Math.floor(trunkL1Coords[1]) +
+      " Q " + Math.floor(trunkQ1MiddleCoords[0]) + " " + Math.floor(trunkQ1MiddleCoords[1]) + " " +
+      Math.floor(trunkQ1FinalCoords[0]) + " " + Math.floor(trunkQ1FinalCoords[1]) +
+      " Q " + Math.floor(trunkQ2MiddleCoords[0]) + " " + Math.floor(trunkQ2MiddleCoords[1]) + " " +
+      Math.floor(trunkQ2FinalCoords[0]) + " " + Math.floor(trunkQ2FinalCoords[1]) +
+      " L " + Math.floor(trunkL2Coords[0]) + " " + Math.floor(trunkL2Coords[1]) + " Z')";
 
-  // const trunkAnimStyle = document.createElementNS("http://www.w3.org/2000/svg", "style");
-  // trunkAnimStyle.textContent = ".tree-animation-trunk { transition: d " + trunkAnimDuration/1000 + "s ease-in; d: " + trunkAnimString + "; }";
-  // document.getElementsByTagName('head')[0].appendChild(trunkAnimStyle);
+  const trunkAnimStyle = document.createElementNS("http://www.w3.org/2000/svg", "style");
+  trunkAnimStyle.textContent = ".tree-animation-trunk { transition: d " + trunkAnimDuration/1000 + "s ease-in; d: " + trunkAnimString + "; }";
+  document.getElementsByTagName('head')[0].appendChild(trunkAnimStyle);
 
-  // boxElement.className += ' fade-in';
+  boxElement.className += ' fade-in';
 
-  // circleElement.setAttribute("class","fadeable fade-in");
+  circleElement.setAttribute("class","fadeable fade-in");
 
-  // // Perform the trunk animation, then the branch animation after a delay
-  // pathElement.className.baseVal = 'tree-animation-trunk';
-  // // let triggerRepaint = pathElement.getBBox();
-  // // pathElement.setAttribute('class', 'tree-animation-trunk');
-  // setTimeout(() => {
-  //   pathElement.className.baseVal = 'tree-animation-branch';
-  //   // triggerRepaint = pathElement.getBBox();
-  //   // pathElement.setAttribute('class', 'tree-animation-branch');
-  // },  trunkAnimDuration);
+  // Perform the trunk animation, then the branch animation after a delay
+  pathElement.className.baseVal += ' tree-animation-trunk';
+  // let triggerRepaint = pathElement.getBBox();
+  // pathElement.setAttribute('class', 'tree-animation-trunk');
+  setTimeout(() => {
+    pathElement.className.baseVal += ' tree-animation-branch';
+    // triggerRepaint = pathElement.getBBox();
+    // pathElement.setAttribute('class', 'tree-animation-branch');
+  },  trunkAnimDuration);
 
-  // } catch (err) {
-  //   // Debugging for devices without a dev console (i.e. mobile safari)
-  //   boxElement.innerText = err;
-  //   throw err;
-  // }
+  } catch (err) {
+    // Debugging for devices without a dev console (i.e. mobile safari)
+    boxElement.innerText = err;
+    throw err;
+  }
   
 </script>
 
