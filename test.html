@@ -214,15 +214,14 @@
     pathElement.setAttribute('class', 'blue-fill');
     // pathElement.setAttribute('class', 'tree-animation-trunk');
     setTimeout(() => {
-      console.log(branchString);
-      pathElement.setAttribute("d", branchString);
       // pathElement.className.baseVal = 'green-fill';
-      // pathElement.setAttribute('class', 'green-fill');
+      pathElement.setAttribute('class', 'green-fill');
       // pathElement.setAttribute('class', 'tree-animation-branch');
     },  trunkAnimDuration);
   } else {
     // Otherwise, just set the branch's path to the final destination
     boxElement.innerText = branchString;
+    pathElement.setAttribute("class", "");
     pathElement.setAttribute("d", branchString);
   }
 
