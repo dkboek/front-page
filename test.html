@@ -44,7 +44,7 @@
       d: path('M 450 1000 L 450 794 Q 450 694 550 394 Q 550 694 550 794 L 550 1000 Z');
     }
 
-    @supports (d: path) {
+    @supports (d: path('M0 0')) {
       #testBox {background-color: white;}
     }
   </style>
