@@ -70,7 +70,7 @@
 
 <script src="scripts/generic.js"></script>
 <script src="scripts/proverbs_submission.js"></script>
-<!-- <script src="scripts/proverbs_tree.js"></script> -->
+<script src="scripts/proverbs_tree.js"></script>
 
 <script type="module">
 
@@ -280,59 +280,59 @@ function generateBranchString(location, svgSize) {
         " L " + Math.floor(branchL2Coords[0]) + " " + Math.floor(branchL2Coords[1]) + " Z";
 }
 
-function loadBranchAnimation(targetLocation, id, backSVG, treeColour, treeStrokeWidth, proverbElement=null) {
-    // This function loads a tree branch object in the background svg,
-    //  and sets its destination to `targetLocation`.
-    // Note that `id` is used to assign a unique animation class to each proverb.
+// function loadBranchAnimation(targetLocation, id, backSVG, treeColour, treeStrokeWidth, proverbElement=null) {
+//     // This function loads a tree branch object in the background svg,
+//     //  and sets its destination to `targetLocation`.
+//     // Note that `id` is used to assign a unique animation class to each proverb.
 
-    // We define some variables, and load in the base of the tree/branch
-    const svgSize = [ backSVG.getBoundingClientRect().width,
-                      backSVG.getBoundingClientRect().height ];
-    const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
+//     // We define some variables, and load in the base of the tree/branch
+//     const svgSize = [ backSVG.getBoundingClientRect().width,
+//                       backSVG.getBoundingClientRect().height ];
+//     const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
 
-    generateTreeBase(pathElement, svgSize, treeColour, treeStrokeWidth);
-    backSVG.appendChild(pathElement);
+//     generateTreeBase(pathElement, svgSize, treeColour, treeStrokeWidth);
+//     backSVG.appendChild(pathElement);
 
-    // We choose random animation durations for the two growing phases, in ms
-    const branchAnimDuration = randomInt(3000,5000);
-    const trunkAnimDuration = randomInt(3000,5000);
+//     // We choose random animation durations for the two growing phases, in ms
+//     const branchAnimDuration = randomInt(3000,5000);
+//     const trunkAnimDuration = randomInt(3000,5000);
 
-    // **TODO: fix this weird weird bug (animations don't work if proverbElement is not included here)
-    if (proverbElement !== null) {
-        targetLocation = [proverbElement.offsetLeft + proverbElement.offsetWidth/2,
-                            proverbElement.offsetTop + proverbElement.offsetHeight/2];
-    }
+//     // **TODO: fix this weird weird bug (animations don't work if proverbElement is not included here)
+//     if (proverbElement !== null) {
+//         targetLocation = [proverbElement.offsetLeft + proverbElement.offsetWidth/2,
+//                             proverbElement.offsetTop + proverbElement.offsetHeight/2];
+//     }
 
-    // Define the 'd' string to be used for the tree
-    const branchString = generateBranchString(targetLocation, svgSize);
-    const branchAnimString = "path('" + branchString + "')";
+//     // Define the 'd' string to be used for the tree
+//     const branchString = generateBranchString(targetLocation, svgSize);
+//     const branchAnimString = "path('" + branchString + "')";
 
-    // Create a new CSS class, which describes the animation for the branch
-    const branchAnimStyle = document.createElementNS("http://www.w3.org/2000/svg", "style");
-    branchAnimStyle.textContent = ".tree-animation-branch-" + id + " { transition: d " + branchAnimDuration/1000 + "s ease-out; d: " + branchAnimString + "; }";
-    document.getElementsByTagName('head')[0].appendChild(branchAnimStyle);
+//     // Create a new CSS class, which describes the animation for the branch
+//     const branchAnimStyle = document.createElementNS("http://www.w3.org/2000/svg", "style");
+//     branchAnimStyle.textContent = ".tree-animation-branch-" + id + " { transition: d " + branchAnimDuration/1000 + "s ease-out; d: " + branchAnimString + "; }";
+//     document.getElementsByTagName('head')[0].appendChild(branchAnimStyle);
 
-    // And again, for an intermediary 'trunk' animation stage
-    const trunkString = generateTrunkString(targetLocation, svgSize);
-    const trunkAnimString = "path('" + trunkString + "')" ;
+//     // And again, for an intermediary 'trunk' animation stage
+//     const trunkString = generateTrunkString(targetLocation, svgSize);
+//     const trunkAnimString = "path('" + trunkString + "')" ;
 
-    const trunkAnimStyle = document.createElementNS("http://www.w3.org/2000/svg", "style");
-    trunkAnimStyle.textContent = ".tree-animation-trunk-" + id + " { transition: d " + trunkAnimDuration/1000 + "s ease-in; d: " + trunkAnimString + "; }";
-    document.getElementsByTagName('head')[0].appendChild(trunkAnimStyle);
+//     const trunkAnimStyle = document.createElementNS("http://www.w3.org/2000/svg", "style");
+//     trunkAnimStyle.textContent = ".tree-animation-trunk-" + id + " { transition: d " + trunkAnimDuration/1000 + "s ease-in; d: " + trunkAnimString + "; }";
+//     document.getElementsByTagName('head')[0].appendChild(trunkAnimStyle);
 
-    // Check that the browser supports CSS SVG path animations.
-    if (CSS.supports("d", "path('M0 0')")) {
-        // Perform the trunk animation, then the branch animation after a delay
-        pathElement.setAttribute('class', 'tree-animation-trunk-' + id);
-        setTimeout(() => {
-        pathElement.setAttribute('class', 'tree-animation-branch-' + id);
-        },  trunkAnimDuration);
+//     // Check that the browser supports CSS SVG path animations.
+//     if (CSS.supports("d", "path('M0 0')")) {
+//         // Perform the trunk animation, then the branch animation after a delay
+//         pathElement.setAttribute('class', 'tree-animation-trunk-' + id);
+//         setTimeout(() => {
+//         pathElement.setAttribute('class', 'tree-animation-branch-' + id);
+//         },  trunkAnimDuration);
 
-    } else {
-        // Otherwise, just set the branch's path to the final destination
-        pathElement.setAttribute('d', branchString);
-    }
-}
+//     } else {
+//         // Otherwise, just set the branch's path to the final destination
+//         pathElement.setAttribute('d', branchString);
+//     }
+// }
 
 
 
