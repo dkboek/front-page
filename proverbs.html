@@ -133,7 +133,7 @@
 
   if (!CSS.supports("d", "path('M0 0')")) {
     for (let i = 0; i < locationList.length; i++) {
-      loadBranchAnimation(locationList[i], i);
+      loadBranchAnimation(locationList[i], i, backSVG, treeColour, treeStrokeWidth);
     }
   }
 

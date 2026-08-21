@@ -91,7 +91,7 @@ function arrangeProverbs( proverbList, locationList, mainbar, backSVG, treeColou
         //  so we simply give the proverb a fade-in.
         let fadeDelay;
         if (CSS.supports("d", "path('M0 0')")) {
-            loadBranchAnimation(location, i, newProverb, backSVG, treeColour, treeStrokeWidth);
+            loadBranchAnimation(location, i, backSVG, treeColour, treeStrokeWidth, newProverb);
             fadeDelay = randomInt(3000,4000);
         } else {
             fadeDelay = randomInt(0,2000);
@@ -204,7 +204,7 @@ function generateBranchString(location, svgSize) {
         " L " + Math.floor(branchL2Coords[0]) + " " + Math.floor(branchL2Coords[1]) + " Z";
 }
 
-function loadBranchAnimation(targetLocation, id, proverbElement=null, backSVG, treeColour, treeStrokeWidth) {
+function loadBranchAnimation(targetLocation, id, backSVG, treeColour, treeStrokeWidth, proverbElement=null) {
     // This function loads a tree branch object in the background svg,
     //  and sets its destination to `targetLocation`.
     // Note that `id` is used to assign a unique animation class to each proverb.
