@@ -90,7 +90,7 @@ function arrangeProverbs( proverbList, locationList, mainbar, backSVG, treeColou
         // If browser doesn't support CSS path transitions, the branch was loaded earlier,
         //  so we simply give the proverb a fade-in.
         let fadeDelay;
-        if (CSS.supports("d", "path('M0 0')")) {
+        if (!CSS.supports("d", "path('M0 0')")) {
             loadBranchAnimation(location, i, backSVG, treeColour, treeStrokeWidth, newProverb);
             fadeDelay = randomInt(3000,4000);
         } else {
@@ -245,7 +245,7 @@ function loadBranchAnimation(targetLocation, id, backSVG, treeColour, treeStroke
     document.getElementsByTagName('head')[0].appendChild(trunkAnimStyle);
 
     // Check that the browser supports CSS SVG path animations.
-    if (CSS.supports("d", "path('M0 0')")) {
+    if (!CSS.supports("d", "path('M0 0')")) {
         // Perform the trunk animation, then the branch animation after a delay
         pathElement.setAttribute('class', 'tree-animation-trunk-' + id);
         setTimeout(() => {
