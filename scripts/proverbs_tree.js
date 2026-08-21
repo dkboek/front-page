@@ -1,0 +1,259 @@
+// In this file, we define all functions required to load the branches
+//  which form the tree animation on proverbs.html
+
+
+// Functions for arranging the proverbs on the page
+
+function findSuitableLocation( locationList, maxProverbWidth, mainbarSize, oneEm ) {
+    // This function picks a random location, repeatedly, until it
+    //  doesn't conflict with the locations in locationList
+
+    // Sizing variables
+    const onePercentX = mainbarSize[0]/100;
+    const onePercentY = mainbarSize[1]/100;
+
+    let locationSuitable = false;
+    let location = [];
+    let failures = 0;
+
+    while (!locationSuitable) {
+
+        // If we have too many failures, we break out
+        if (failures >= 1000) {
+            return null;
+        }
+
+        // Generate location (in px)
+        location = [randomInt(0.6*maxProverbWidth,100*onePercentX - 0.6*maxProverbWidth),
+                    randomInt(10*onePercentY,60*onePercentY)];
+
+        // First location is always accepted
+        if ( locationList.length == 0 ) {
+            return location;
+        }
+        
+        // Check whether current location is too close to any other location
+        function checkDistance(location1,location2,width,height) {
+            const x1 = location1[0]; const y1 = location1[1];
+            const x2 = location2[0]; const y2 = location2[1];
+            return (Math.abs(x1-x2) > width) || (Math.abs(y1-y2) > height);
+        }
+        for ( let i = 0; i < locationList.length; i++ ) {
+            const oldLocation = locationList[i];
+            if ( checkDistance(location, oldLocation, 21*oneEm, 9*oneEm) ) {
+                locationSuitable = true;
+            } else {
+                locationSuitable = false;
+                break;
+            }
+        }
+        failures++;
+    }
+    // If we make it through, the location was suitable
+    return location;
+}
+
+function arrangeProverbs( proverbList, locationList, mainbar, backSVG, treeColour, treeStrokeWidth ) {
+
+    // Each proverb is arranged, given appropriate styles, 
+    //  then placed in a non-conflicting location
+    for ( let i = 0; i < Math.min(proverbList.length, locationList.length); i++ ) {
+        const proverbText = proverbList[i];
+        const location = locationList[i];
+        
+        // We give our new proverb both the proverb class (for styling)
+        //  and the fadeable class (for animation)
+        const newProverb = document.createElement("div");
+        newProverb.setAttribute("class", "proverb fadeable");
+
+        // Handling multi-line proverbs
+        const paragraphList = proverbText.split('\n');
+        for ( let i = 0; i < paragraphList.length; i++ ) {
+            const paragraph = document.createElement("p");
+            paragraph.innerHTML = paragraphList[i];
+            newProverb.appendChild(paragraph)
+        }
+
+        // Choose the newly-found location as the placement for the current proverb
+        newProverb.style.left = location[0] + "px";
+        newProverb.style.top = location[1] + "px";
+
+        // Add proverb to the mainbar
+        mainbar.appendChild(newProverb);
+
+        // Now center the proverb location to match `location` with the centre
+        //  of the proverb box
+        newProverb.style.left = (location[0] - newProverb.offsetWidth/2) + "px";
+        newProverb.style.top = (location[1] - newProverb.offsetHeight/2) + "px";
+
+        // Now we load the branch and activate the fade-in animation for the proverb.
+        // If browser doesn't support CSS path transitions, the branch was loaded earlier,
+        //  so we simply give the proverb a fade-in.
+        let fadeDelay;
+        if (CSS.supports("d", "path('M0 0')")) {
+            loadBranchAnimation(location, i, newProverb, backSVG, treeColour, treeStrokeWidth);
+            fadeDelay = randomInt(3000,4000);
+        } else {
+            fadeDelay = randomInt(0,2000);
+        }
+        setTimeout(() => {newProverb.className += ' fade-in';}, fadeDelay);
+
+
+    }
+}
+
+
+
+
+// Functions for building the branches of the proverb tree
+
+function generateTreeBase(pathElement, svgSize, treeColour, treeStrokeWidth) {
+    // This function takes an empty SVG path element, and defines attributes
+    //  to create an appropriately-sized tree base SVG
+
+    // Define some sizing variables
+    const trunkWidth = svgSize[0]/10;
+    const tenthSize = [svgSize[0]/10, svgSize[1]/10];
+
+    // Defining our SVG path string
+    const pathStart = [svgSize[0]/2 - trunkWidth/2, svgSize[1]];
+    const pathEnd = [svgSize[0]/2 + trunkWidth/2, svgSize[1]];
+    const baseTreeString = "M " + Math.floor(pathStart[0]) + " " + Math.floor(pathStart[1]) +
+            " L " + Math.floor(pathStart[0]) + " " + Math.floor(pathStart[1] - tenthSize[1]) +
+            " Q " + Math.floor(pathStart[0]) + " " + Math.floor(pathStart[1] - 2*tenthSize[1]) +
+            " " + Math.floor(svgSize[0]/2) + " " + Math.floor(pathStart[1] - 4*tenthSize[1]) +
+            " Q " + Math.floor(pathEnd[0]) + " " + Math.floor(pathStart[1] - 2*tenthSize[1]) +
+            " " + Math.floor(pathEnd[0]) + " " + Math.floor(pathStart[1] - tenthSize[1]) +
+            " L " + Math.floor(pathEnd[0]) + " " + Math.floor(pathEnd[1]) + " Z";
+
+    // Define attributes and add to the SVG tag
+    pathElement.setAttribute("d", baseTreeString);
+    pathElement.setAttribute("stroke", treeColour);
+    pathElement.setAttribute("stroke-width", treeStrokeWidth);
+    pathElement.setAttribute("fill", treeColour);
+}
+
+function generateTrunkString(location, svgSize) {
+    // This function takes the location of a proverb element (and its size), 
+    //  and returns the d string used for the SVG trunk path
+
+    const trunkWidth = svgSize[0]/10;
+
+    const pathStart = [svgSize[0]/2 - trunkWidth/2, svgSize[1]];
+    const pathEnd = [svgSize[0]/2 + trunkWidth/2, svgSize[1]];
+
+    const trunkBaseHeight = location[1] + 
+                        (svgSize[1] - location[1])
+                            *clamp(svgSize[0]/(8*Math.abs(location[0]-svgSize[0]/2)),1/2,2/3);
+    const transitionTrunkHeight = svgSize[1]/10;
+    const spikeHeight = 3*svgSize[1]/10;
+
+    const trunkL1Coords = [pathStart[0], trunkBaseHeight + transitionTrunkHeight];
+    const trunkL2Coords = [pathEnd[0], pathEnd[1]];
+
+    const trunkQ1MiddleCoords = [pathStart[0], trunkBaseHeight];
+    const trunkQ1FinalCoords = [clamp(location[0], pathStart[0], pathEnd[0]), trunkBaseHeight - spikeHeight];
+
+    const trunkQ2MiddleCoords = [pathEnd[0], trunkBaseHeight];
+    const trunkQ2FinalCoords = [pathEnd[0], trunkBaseHeight + transitionTrunkHeight];
+
+    return "M " + Math.floor(pathStart[0]) + " " + Math.floor(pathStart[1]) +
+        " L " + Math.floor(trunkL1Coords[0]) + " " + Math.floor(trunkL1Coords[1]) +
+        " Q " + Math.floor(trunkQ1MiddleCoords[0]) + " " + Math.floor(trunkQ1MiddleCoords[1]) + " " +
+        Math.floor(trunkQ1FinalCoords[0]) + " " + Math.floor(trunkQ1FinalCoords[1]) +
+        " Q " + Math.floor(trunkQ2MiddleCoords[0]) + " " + Math.floor(trunkQ2MiddleCoords[1]) + " " +
+        Math.floor(trunkQ2FinalCoords[0]) + " " + Math.floor(trunkQ2FinalCoords[1]) +
+        " L " + Math.floor(trunkL2Coords[0]) + " " + Math.floor(trunkL2Coords[1]) + " Z";
+}
+
+function generateBranchString(location, svgSize) {
+    // This function takes the location of a proverb element (and its size), 
+    //  and returns the d string used for the SVG branch path
+
+    const trunkWidth = svgSize[0]/10;
+
+    const pathStart = [svgSize[0]/2 - trunkWidth/2, svgSize[1]];
+    const pathEnd = [svgSize[0]/2 + trunkWidth/2, svgSize[1]];
+
+    const trunkBaseHeight = location[1] + 
+                        (svgSize[1] - location[1])
+                            *clamp(svgSize[0]/(8*Math.abs(location[0]-svgSize[0]/2)),1/2,2/3);
+
+    // Locate the box within the svg coordinates
+    const branchQ1FinalCoords = [location[0], location[1]];
+    const branchQ2FinalCoords = [pathEnd[0], trunkBaseHeight];
+
+    // Define the curve of the branch
+    const branchQOffset = clamp( 3*svgSize[1]/10 - Math.abs(location[0]-svgSize[0]/2),
+                            svgSize[1]/20, 3*svgSize[1]/10)
+
+    const branchQ1MiddleCoords = [pathStart[0], branchQ1FinalCoords[1] + branchQOffset];
+    const branchQ2MiddleCoords = [pathEnd[0], branchQ1FinalCoords[1] + branchQOffset];
+
+    // Define the linear extent of the trunk
+    const branchL1Coords = [pathStart[0], trunkBaseHeight];
+    const branchL2Coords = [branchQ2FinalCoords[0], pathEnd[1]]
+
+    // Return the 'd' string to be used for the tree branch
+    return "M " + Math.floor(pathStart[0]) + " " + Math.floor(pathStart[1]) + 
+        " L " + Math.floor(branchL1Coords[0]) + " " + Math.floor(branchL1Coords[1]) +
+        " Q " + Math.floor(branchQ1MiddleCoords[0]) + " " + Math.floor(branchQ1MiddleCoords[1]) + " " +
+        Math.floor(branchQ1FinalCoords[0]) + " " + Math.floor(branchQ1FinalCoords[1]) + 
+        " Q " + Math.floor(branchQ2MiddleCoords[0]) + " " + Math.floor(branchQ2MiddleCoords[1]) + " " +
+        Math.floor(branchQ2FinalCoords[0]) + " " + Math.floor(branchQ2FinalCoords[1]) + 
+        " L " + Math.floor(branchL2Coords[0]) + " " + Math.floor(branchL2Coords[1]) + " Z";
+}
+
+function loadBranchAnimation(targetLocation, id, proverbElement=null, backSVG, treeColour, treeStrokeWidth) {
+    // This function loads a tree branch object in the background svg,
+    //  and sets its destination to `targetLocation`.
+    // Note that `id` is used to assign a unique animation class to each proverb.
+
+    // We define some variables, and load in the base of the tree/branch
+    const svgSize = [ backSVG.getBoundingClientRect().width,
+                      backSVG.getBoundingClientRect().height ];
+    const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
+
+    generateTreeBase(pathElement, svgSize, treeColour, treeStrokeWidth);
+    backSVG.appendChild(pathElement);
+
+    // We choose random animation durations for the two growing phases, in ms
+    const branchAnimDuration = randomInt(3000,5000);
+    const trunkAnimDuration = randomInt(3000,5000);
+
+    // **TODO: fix this weird weird bug (animations don't work if proverbElement is not included here)
+    if (proverbElement !== null) {
+        targetLocation = [proverbElement.offsetLeft + proverbElement.offsetWidth/2,
+                            proverbElement.offsetTop + proverbElement.offsetHeight/2];
+    }
+
+    // Define the 'd' string to be used for the tree
+    const branchString = generateBranchString(targetLocation, svgSize);
+    const branchAnimString = "path('" + branchString + "')";
+
+    // Create a new CSS class, which describes the animation for the branch
+    const branchAnimStyle = document.createElementNS("http://www.w3.org/2000/svg", "style");
+    branchAnimStyle.textContent = ".tree-animation-branch-" + id + " { transition: d " + branchAnimDuration/1000 + "s ease-out; d: " + branchAnimString + "; }";
+    document.getElementsByTagName('head')[0].appendChild(branchAnimStyle);
+
+    // And again, for an intermediary 'trunk' animation stage
+    const trunkString = generateTrunkString(targetLocation, svgSize);
+    const trunkAnimString = "path('" + trunkString + "')" ;
+
+    const trunkAnimStyle = document.createElementNS("http://www.w3.org/2000/svg", "style");
+    trunkAnimStyle.textContent = ".tree-animation-trunk-" + id + " { transition: d " + trunkAnimDuration/1000 + "s ease-in; d: " + trunkAnimString + "; }";
+    document.getElementsByTagName('head')[0].appendChild(trunkAnimStyle);
+
+    // Check that the browser supports CSS SVG path animations.
+    if (CSS.supports("d", "path('M0 0')")) {
+        // Perform the trunk animation, then the branch animation after a delay
+        pathElement.setAttribute('class', 'tree-animation-trunk-' + id);
+        setTimeout(() => {
+        pathElement.setAttribute('class', 'tree-animation-branch-' + id);
+        },  trunkAnimDuration);
+
+    } else {
+        // Otherwise, just set the branch's path to the final destination
+        pathElement.setAttribute('d', branchString);
+    }
+}
