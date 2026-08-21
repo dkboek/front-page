@@ -80,9 +80,18 @@
   const svgSize = [ backSVG.getBoundingClientRect().width,
                       backSVG.getBoundingClientRect().height ];
 
+                      
+  // Establish some sizing elements, to find em and % element sizes
+  const mainbarWidth = document.querySelectorAll('div#mainbar')[0].offsetWidth;
+  const mainbarHeight = document.querySelectorAll('div#mainbar')[0].offsetHeight;
+  const oneEm = 16
+  const onePercentX = mainbarWidth / 100;
+  const onePercentY = mainbarHeight / 100;
+
   // Graphical variables
   const treeColour = "rgb(102,43,8)";
   const treeStrokeWidth = "2";
+  const maxProverbWidth = 20*oneEm; //TODO: these should all read from the CSS
 
   // Define the functions for generating the path strings of the tree branches
   function generateTreeBase(pathElement, svgSize, trunkWidth) {
@@ -178,15 +187,26 @@
   // Load in a basic tree base, to sit while the proverbs are loaded in
   const treeBase = document.createElementNS("http://www.w3.org/2000/svg", "path");
 
-  const trunkWidth = 100
+  const trunkWidth = svgSize[0]/10;
 
   generateTreeBase(treeBase, svgSize, trunkWidth);
   backSVG.appendChild(treeBase);
 
   // Choose locations for the proverbs. If browser doesn't have SVG animation
   //  support using CSS, we load in the full tree here as well
-  function loadBranchStatic(locationList) {
+  const locationList = [];
+  const maxNumLocations = 7;
 
+  for (let i=0; i < maxNumLocations; i++) {
+    const location = findSuitableLocation(locationList);
+    if (!location) {
+      console.log("Unable to find suitable location");
+      continue;
+    }
+    locationList.push( location );
+  }
+
+  function loadBranchStatic(locationList) {
   }
 
   let _supabase;
@@ -213,13 +233,6 @@
   } finally {
     console.log("Database connection established");
   }
-
-  // Establish some key sizing elements, to find em and % element sizes
-  const mainbarWidth = document.querySelectorAll('div#mainbar')[0].offsetWidth;
-  const mainbarHeight = document.querySelectorAll('div#mainbar')[0].offsetHeight;
-  const oneEm = 16
-  const onePercentX = mainbarWidth / 100;
-  const onePercentY = mainbarHeight / 100;
 
 
   // Now we find the entry box, submit button, and confirmation text for the form
@@ -268,7 +281,7 @@
       min = max;
       max = temp;
     }
-    return min + Math.floor(Math.random() * max)
+    return Math.floor(min) + Math.floor(Math.random() * (max - min))
   }
 
   async function selectProverbs( maxNum = 7 ) {
@@ -290,6 +303,7 @@
         const randomIndex = randomInt(objectList.length);
         const newText = objectList[randomIndex].proverb_text;
 
+        // Add the active proverb, and remove it from the selection list
         activeProverbList.push( newText );
         objectList.splice(randomIndex, 1);
       }
@@ -319,7 +333,8 @@
       }
 
       // Generate location (in px)
-      location = [randomInt(5,100 - 23*oneEm/onePercentX)*onePercentX, randomInt(5,60)*onePercentY];
+      location = [randomInt(0.6*maxProverbWidth,100*onePercentX - 0.6*maxProverbWidth),
+                 randomInt(10*onePercentY,60*onePercentY)];
 
       // First location is always accepted
       if ( locationList.length == 0 ) {
@@ -350,9 +365,9 @@
 
   const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
 
-  function loadBranchAnimation(proverbElement, id) {
+  function loadBranchAnimation(proverbElement, id, animated=true, targetLocation=null) {
     // This function loads a tree branch object in the background svg,
-    //  and sets its destination to `location`.
+    //  and sets its destination to `targetLocation`.
     // Note that `id` is used to assign a unique animation class to each proverb.
 
     // We define some variables, and load in the base of the tree/branch
@@ -365,7 +380,8 @@
     const branchAnimDuration = randomInt(3000,5000);
     const trunkAnimDuration = randomInt(3000,5000);
 
-    // Retrieve details of the proverb element, to use in animating
+    // Retrieve details of the proverb element, to use in animating.
+    //  If animated==false, we use the provided location instead
     const proverbCoords = [proverbElement.offsetLeft - svgCoords[0], proverbElement.offsetTop];
     const proverbSize = [proverbElement.offsetWidth, proverbElement.offsetHeight];
 
@@ -406,17 +422,16 @@
   }
 
 
-  function arrangeProverbs( proverbList ) {
+  function arrangeProverbs( proverbList, locationList ) {
 
     // Establish mainbar object
     const mainbar = document.querySelectorAll('div#mainbar')[0];
     
     // Each proverb is arranged, given appropriate styles, 
     //  then placed in a non-conflicting location
-    const locationList = [];
-
-    for ( let i = 0; i < proverbList.length; i++ ) {
+    for ( let i = 0; i < Math.min(proverbList.length, locationList.length); i++ ) {
       const proverbText = proverbList[i];
+      const location = locationList[i];
       
       // We give our new proverb both the proverb class (for styling)
       //  and the fadeable class (for animation)
@@ -431,22 +446,19 @@
         newProverb.appendChild(paragraph)
       }
 
-      // Finding a good location
-      const location = findSuitableLocation(locationList);
-      if (!location) {
-        console.log("Unable to find suitable proverb location");
-        continue;
-      }
-      locationList.push( location );
-
       // Choose the newly-found location as the placement for the current proverb
       newProverb.style.left = location[0] + "px";
       newProverb.style.top = location[1] + "px";
 
       mainbar.appendChild(newProverb);
 
+      // Now center the proverb location to match `location` with the centre
+      //  of the proverb box
+      newProverb.style.left = (location[0] - newProverb.offsetWidth/2) + "px";
+      newProverb.style.top = (location[1] - newProverb.offsetHeight/2) + "px";
+
       // Now we load the branch and activate the fade-in animation for the proverb
-      loadBranchAnimation(newProverb, (locationList.length));
+      loadBranchAnimation(newProverb, i, true, location);
 
     }
   }
@@ -454,10 +466,10 @@
   
 
   // On initial load, we select up to 7 of the approved proverbs
-  const proverbList = await selectProverbs(7);
+  const proverbList = await selectProverbs(locationList.length);
   // Then, we arrange them appropriately across the screen,
   //  and create a tree branch per proverb
-  arrangeProverbs(proverbList);
+  arrangeProverbs(proverbList, locationList);
 
 </script>
 </body>
