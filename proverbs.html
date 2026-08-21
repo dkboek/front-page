@@ -166,7 +166,7 @@ function arrangeProverbs( proverbList, locationList, mainbar, backSVG, treeColou
         // If browser doesn't support CSS path transitions, the branch was loaded earlier,
         //  so we simply give the proverb a fade-in.
         let fadeDelay;
-        if (!CSS.supports("d", "path('M0 0')")) {
+        if (CSS.supports("d", "path('M0 0')")) {
             loadBranchAnimation(location, i, backSVG, treeColour, treeStrokeWidth, newProverb);
             fadeDelay = randomInt(3000,4000);
         } else {
@@ -321,7 +321,7 @@ function loadBranchAnimation(targetLocation, id, backSVG, treeColour, treeStroke
     document.getElementsByTagName('head')[0].appendChild(trunkAnimStyle);
 
     // Check that the browser supports CSS SVG path animations.
-    if (!CSS.supports("d", "path('M0 0')")) {
+    if (CSS.supports("d", "path('M0 0')")) {
         // Perform the trunk animation, then the branch animation after a delay
         pathElement.setAttribute('class', 'tree-animation-trunk-' + id);
         setTimeout(() => {
@@ -379,7 +379,7 @@ function loadBranchAnimation(targetLocation, id, backSVG, treeColour, treeStroke
   // If the browser doesn't support CSS path animations, we load the tree later
   const treeBase = document.createElementNS("http://www.w3.org/2000/svg", "path");
 
-  if (!CSS.supports("d", "path('M0 0')")) {
+  if (CSS.supports("d", "path('M0 0')")) {
     generateTreeBase(treeBase, svgSize, treeColour, treeStrokeWidth);
     backSVG.appendChild(treeBase);
   }
@@ -398,7 +398,7 @@ function loadBranchAnimation(targetLocation, id, backSVG, treeColour, treeStroke
     locationList.push( location );
   }
 
-  if (CSS.supports("d", "path('M0 0')")) {
+  if (!CSS.supports("d", "path('M0 0')")) {
     for (let i = 0; i < locationList.length; i++) {
       loadBranchAnimation(locationList[i], i, backSVG, treeColour, treeStrokeWidth);
     }
