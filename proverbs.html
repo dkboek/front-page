@@ -370,7 +370,9 @@
   }
 
 
-  const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
+  function clamp(val, min, max) {
+    return Math.min(Math.max(val, min), max);
+  }
 
   function loadBranchAnimation(targetLocation, id, proverbElement=null) {
     // This function loads a tree branch object in the background svg,
@@ -381,12 +383,6 @@
     const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
     
     generateTreeBase(pathElement, svgSize, trunkWidth);
-
-    // If browser doesn't support CSS path transitions, we let the whole
-    //  tree fade in rather than performing an animation
-    if (!CSS.supports("d", "path('M0 0')")) {
-      pathElement.setAttribute('class', 'fadeable');
-    }
     backSVG.appendChild(pathElement);
 
     // We choose random animation durations for the two growing phases, in ms
@@ -426,7 +422,6 @@
 
     } else {
       // Otherwise, just set the branch's path to the final destination
-      pathElement.setAttribute('class', 'fadeable fade-in');
       pathElement.setAttribute('d', branchString);
     }
 
@@ -471,12 +466,15 @@
       // Now we load the branch and activate the fade-in animation for the proverb.
       // If browser doesn't support CSS path transitions, the branch was loaded earlier,
       //  so we simply give the proverb a fade-in.
+      let fadeDelay;
       if (CSS.supports("d", "path('M0 0')")) {
         loadBranchAnimation(location, i, newProverb);
-        newProverb.className += ' fade-in';
+        fadeDelay = randomInt(3000,4000);
       } else {
-        newProverb.className += ' fade-in';
+        fadeDelay = randomInt(0,2000);
       }
+      setTimeout(() => {newProverb.className += ' fade-in';}, fadeDelay);
+
 
     }
   }
